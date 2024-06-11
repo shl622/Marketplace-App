@@ -23,6 +23,14 @@
       "layer": {
         "app/login/page": "action-browser"
       }
+    },
+    "bac322e329a14f5411396a6b095de2d5cfa2639d": {
+      "workers": {
+        "app/create-account/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbrianlee%2Fcode%2FProjects%2FCarrot-Market%2Fapp%2Fcreate-account%2Factions.ts%22%2C%5B%22initAccount%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/create-account/page": "action-browser"
+      }
     }
   },
   "edge": {},

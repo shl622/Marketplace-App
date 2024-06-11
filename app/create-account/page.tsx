@@ -1,50 +1,48 @@
+"use client"
+
 import FormInput from "@/components/form-input"
 import FormButton from "@/components/form-btn"
 import SocialLogin from "@/components/social-login"
-import { redirect } from "next/navigation"
+import { useFormState } from "react-dom"
+import { initAccount } from "./actions"
 
 export default function createAccount(){
-    const handleSubmit = async (formData: FormData) =>{
-        "use server" //only run in server
-        //promise to stop user from infinitely pressing login
-        await new Promise((resolve) => setTimeout(resolve,3000))
-        redirect("/login")
-    }
+    //action = {action}
+    const [state,dispatch] = useFormState(initAccount,null)
     return(
-        //container use gap-10
         <div className="flex flex-col gap-10 py-8 px-6">
             <div className="flex flex-col gap-2 *:font-medium">
                 <h1 className="text-2xl">Welcome!</h1>
                 <h2 className="text-xl">Fill in below</h2>
             </div>
-            <form action={handleSubmit} className="flex flex-col gap-3">
+            <form action={dispatch} className="flex flex-col gap-3">
                 <FormInput
                     name="username"
                     type="text"
                     placeholder="Username"
                     required
-                    errors={[]}
+                    errors={state?.fieldErrors.username}
                 />
                 <FormInput
                     name="email"
                     type="email"
                     placeholder="Email"
                     required
-                    errors={[]}
+                    errors={state?.fieldErrors.email}
                 />
                 <FormInput
                     name="password"
                     type="password"
                     placeholder="Password"
                     required
-                    errors={[]}
+                    errors={state?.fieldErrors.password}
                 />
                 <FormInput
-                    name="repassword"
+                    name="confirm_password"
                     type="password"
                     placeholder="Confirm Password"
                     required
-                    errors={[]}
+                    errors={state?.fieldErrors.confirm_password}
                 />
                 <FormButton
                     text="Create account"
