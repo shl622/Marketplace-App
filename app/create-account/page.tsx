@@ -1,5 +1,6 @@
-import { ChatBubbleOvalLeftEllipsisIcon, EnvelopeOpenIcon } from "@heroicons/react/16/solid"
-import Link from "next/link"
+import FormInput from "@/components/form-input"
+import FormButton from "@/components/form-btn"
+import SocialLogin from "@/components/social-login"
 
 export default function createAccount(){
     return(
@@ -10,22 +11,36 @@ export default function createAccount(){
                 <h2 className="text-xl">Fill in below</h2>
             </div>
             <form className="flex flex-col gap-3">
-                <div className="flex flex-col gap-2">
-                    <input className="bg-transparent rounded-md w-full h-10 focus:outline-none ring-1 
-                    focus:ring-2 ring-neutral-200 focus:ring-orange-500 border-none
-                    placeholder:text-neutral-400" type="text" placeholder="Username" required />
-                    <span className="text-red-500 font-medium">Input Error</span>
-                </div>
-                <button className="primary-btn">Create account</button>
+                <FormInput
+                    type="text"
+                    placeholder="Username"
+                    required
+                    errors={[]}
+                />
+                <FormInput
+                    type="email"
+                    placeholder="Email"
+                    required
+                    errors={[]}
+                />
+                <FormInput
+                    type="password"
+                    placeholder="Password"
+                    required
+                    errors={[]}
+                />
+                <FormInput
+                    type="password"
+                    placeholder="Confirm Password"
+                    required
+                    errors={[]}
+                />
+                <FormButton
+                    loading={false}
+                    text="create account"
+                />
             </form>
-            <div className="w-full h-px bg-neutral-500"/>
-            <div>
-                <Link className="primary-btn flex h-10 items-center justify-center gap-3"
-                href="/sms">
-                    <span><ChatBubbleOvalLeftEllipsisIcon className="h-6 w-6"/></span>
-                    <span>Sign up with SMS</span>
-                </Link>
-            </div>
+            <SocialLogin/>
         </div>
     )
 }
