@@ -1,9 +1,10 @@
 "use server"
 import { z } from "zod"
-import { passwordMinLength, passwordRegex, passwordRegexError } from "@/lib/constants"
-//username validation
-const checkUsername = (username: string) =>
-    !username.includes("potato")
+import {
+    passwordMinLength, passwordRegex, passwordRegexError,
+    usernameMinError, usernameMinLength,
+    usernameMaxError, usernameMaxLength
+} from "@/lib/constants"
 
 //password match validation
 const checkPassword = ({ password, confirm_password }: { password: string, confirm_password: string }) =>
@@ -14,11 +15,10 @@ const formSchema = z.object({
     username: z.string({
         invalid_type_error: "Username must be a string",
         required_error: "Username is required."
-    }).min(3, "Username must be at least 3 characters.")
-        .max(10, "Username must be less than 10 characters.")
+    }).min(usernameMinLength, usernameMinError)
+        .max(usernameMaxLength, usernameMaxError)
         .toLowerCase()
-        .trim()
-        .refine(checkUsername, "No potatoes"),
+        .trim(),
     email: z.string().email().trim().toLowerCase(),
     password: z.string().min(passwordMinLength).regex(passwordRegex, passwordRegexError),
     confirm_password: z.string().min(passwordMinLength),
