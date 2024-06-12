@@ -7,6 +7,9 @@ import {
 } from "@/lib/constants"
 import db from "@/lib/db"
 import bcrypt from "bcrypt"
+import { getIronSession } from "iron-session"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 //check if username is unique
 const checkUniqueUsername = async (username: string) => {
@@ -86,8 +89,17 @@ export async function initAccount(prevState: any, formData: FormData) {
                 id: true
             }
         })
-        //log in user
+        //log in user-- use cookies and encrypt/decrypt
+        //https://www.npmjs.com/package/iron-session?activeTab=readme
+        const cookie = await getIronSession(cookies(), {
+            cookieName: "cookie-forreal",
+            password: process.env.COOKIE_PW!
+        })
+        //@ts-ignore
+        cookie.id = user.id;
+        (await cookie).save()
         // redirect to home
+        redirect("/profile")
     }
 
 }
