@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ChatBubbleOvalLeftEllipsisIcon} from "@heroicons/react/16/solid"
-import { FaInstagram } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 interface SocialLoginProps{
 
@@ -13,8 +13,8 @@ export default function SocialLogin(){
             <div className="flex flex-col gap-3">
                 <Link className="primary-btn flex h-10 items-center justify-center gap-3"
                 href="/instagram/start">
-                    <span><FaInstagram className="h-6 w-6"/></span>
-                    <span>Continue with Instagram</span>
+                    <span><FaGithub className="h-6 w-6"/></span>
+                    <span>Continue with GitHub</span>
                 </Link>
                 <Link className="primary-btn flex h-10 items-center justify-center gap-3"
                 href="/sms">
