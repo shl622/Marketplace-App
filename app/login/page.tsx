@@ -1,7 +1,7 @@
 "use client"
 
-import FormInput from "@/components/form-input"
-import FormButton from "@/components/form-btn"
+import Input from "@/components/input"
+import Button from "@/components/button"
 import SocialLogin from "@/components/social-login"
 import { useFormState } from "react-dom"
 import { handleSubmit } from "./actions"
@@ -18,21 +18,21 @@ export default function LogIn(){
             </div>
             {/* below form uses server actions to handle data */}
             <form action={action} className="flex flex-col gap-3">
-                <FormInput
+                <Input
                     name="username"
                     type="text"
                     placeholder="Username"
                     required
                     errors={[]}
                 />
-                <FormInput
+                <Input
                     name="password"
                     type="password"
                     placeholder="Password"
                     required
                     errors={state?.errors ?? []}
                 />
-                <FormButton
+                <Button
                 text="Login"
                 loadMsg="Logging in..."
                 />

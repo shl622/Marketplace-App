@@ -2,12 +2,12 @@
 
 import { useFormStatus } from "react-dom";
 
-interface FormButtonProps{
+interface ButtonProps{
     text:string
     loadMsg:string
 }
 
-export default function FormButton({text,loadMsg}:FormButtonProps){
+export default function Button({text,loadMsg}:ButtonProps){
     //useFormstatus is a React hook tells what is happening with backend
     //can be only used by child of the form
     const {pending} = useFormStatus()
