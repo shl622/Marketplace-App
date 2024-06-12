@@ -5,11 +5,13 @@ import Button from "@/components/button"
 import SocialLogin from "@/components/social-login"
 import { useFormState } from "react-dom"
 import { initAccount } from "./actions"
+import { passwordMinLength } from "@/lib/constants"
 
-export default function createAccount(){
+
+export default function createAccount() {
     //action = {action}
-    const [state,dispatch] = useFormState(initAccount,null)
-    return(
+    const [state, dispatch] = useFormState(initAccount, null)
+    return (
         <div className="flex flex-col gap-10 py-8 px-6">
             <div className="flex flex-col gap-2 *:font-medium">
                 <h1 className="text-2xl">Welcome!</h1>
@@ -38,7 +40,7 @@ export default function createAccount(){
                     placeholder="Password"
                     required
                     errors={state?.fieldErrors.password}
-                    minLength={4}
+                    minLength={passwordMinLength}
                 />
                 <Input
                     name="confirm_password"
@@ -46,14 +48,14 @@ export default function createAccount(){
                     placeholder="Confirm Password"
                     required
                     errors={state?.fieldErrors.confirm_password}
-                    minLength={4}
+                    minLength={passwordMinLength}
                 />
                 <Button
                     text="Create account"
                     loadMsg="Creating account..."
                 />
             </form>
-            <SocialLogin/>
+            <SocialLogin />
         </div>
     )
 }
