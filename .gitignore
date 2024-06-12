@@ -2,3 +2,8 @@ node_modules
 /.next/
 .next
 .env
+.env*.local
+next-env.d.ts
+*.tsbuildinfo
+*.db
+*.db-journal
