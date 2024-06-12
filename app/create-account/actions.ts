@@ -5,8 +5,35 @@ import {
     usernameMinError, usernameMinLength,
     usernameMaxError, usernameMaxLength
 } from "@/lib/constants"
+import db from "@/lib/db"
 
-//password match validation
+//check if username is unique
+const checkUniqueUsername = async (username: string) => {
+    const user = await db.user.findUnique({
+        where: {
+            username
+        },
+        select: {
+            id: true
+        }
+    })
+    return !Boolean(user)
+}
+
+//check if email is unique
+const checkUniqueEmail = async (email: string) => {
+    const user = await db.user.findUnique({
+        where: {
+            email
+        },
+        select: {
+            id: true
+        }
+    })
+    return Boolean(user) === false
+}
+
+//password and confirm_pw match validation
 const checkPassword = ({ password, confirm_password }: { password: string, confirm_password: string }) =>
     password === confirm_password
 
@@ -18,8 +45,13 @@ const formSchema = z.object({
     }).min(usernameMinLength, usernameMinError)
         .max(usernameMaxLength, usernameMaxError)
         .toLowerCase()
-        .trim(),
-    email: z.string().email().trim().toLowerCase(),
+        .trim()
+        .refine(checkUniqueUsername, "Username already exists!"),
+    email: z.string()
+        .email()
+        .trim()
+        .toLowerCase()
+        .refine(checkUniqueEmail, "Email already exists!"),
     password: z.string().min(passwordMinLength).regex(passwordRegex, passwordRegexError),
     confirm_password: z.string().min(passwordMinLength),
 }).refine(checkPassword, {
@@ -35,12 +67,17 @@ export async function initAccount(prevState: any, formData: FormData) {
         password: formData.get("password"),
         confirm_password: formData.get("confirm_password")
     }
-    //pasrse() needs to be try/catch but safeparse just sends
+    //safeParseAsync() to make zod use "await" for all verification that are async
     //flatten allows for an abbreviated 
-    const result = formSchema.safeParse(data)
+    const result = await formSchema.safeParseAsync(data)
     if (!result.success) {
         return result.error.flatten()
     } else {
-        console.log(result.data)
+        // hash passsword
+        // save the user to db
+        //log in user
+        // redirect to home
     }
+
 }
+
