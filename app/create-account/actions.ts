@@ -8,6 +8,8 @@ import {
 import db from "@/lib/db"
 import bcrypt from "bcrypt"
 import getSession from "@/lib/session"
+import { verifySession } from "@/lib/userAuth/verifySession"
+import { redirect } from "next/navigation"
 
 //password and confirm_pw match validation
 const checkPassword = ({ password, confirm_password }: { password: string, confirm_password: string }) =>
@@ -43,7 +45,7 @@ const formSchema = z.object({
             code: 'custom',
             message: 'Username already exists',
             path: ["username"],
-            fatal:true
+            fatal: true
         })
         return z.NEVER
     }
@@ -61,7 +63,7 @@ const formSchema = z.object({
             code: 'custom',
             message: 'Account already exists with the email',
             path: ["email"],
-            fatal:true
+            fatal: true
         })
         return z.NEVER
     }
@@ -98,12 +100,8 @@ export async function initAccount(prevState: any, formData: FormData) {
                 id: true
             }
         })
-        //log in user-- use cookies and encrypt/decrypt
-        //https://www.npmjs.com/package/iron-session?activeTab=readme
-        const session = await getSession()
-        session.id = user.id;
-        await session.save()
-        // redirect to home
+        verifySession(user.id)
+        redirect("/profile")
     }
 
 }

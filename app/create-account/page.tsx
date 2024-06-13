@@ -55,7 +55,9 @@ export default function createAccount() {
                     loadMsg="Creating account..."
                 />
             </form>
-            <SocialLogin />
+            <SocialLogin
+            category="Sign up"
+            />
         </div>
     )
 }

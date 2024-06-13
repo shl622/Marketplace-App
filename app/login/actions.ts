@@ -3,8 +3,8 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import bcrypt from "bcrypt"
-import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import { verifySession } from "@/lib/userAuth/verifySession";
 
 //check if username exists
 const checkUsername = async (username: string) => {
@@ -48,7 +48,6 @@ export async function login(prevState: any, formData: FormData) {
             }
         })
         if (!user) {
-            console.log("username does not exist")
             return {
                 fieldErrors: {
                     username: ["Incorrect username or password."]
@@ -58,10 +57,7 @@ export async function login(prevState: any, formData: FormData) {
         //second argument --> if user doesn't send information
         const verified = await bcrypt.compare(result.data.password, user!.password ?? "xxxx")
         if (verified) {
-            const session = await getSession()
-            session.id = user!.id
-            //save the session every time it is created
-            await session.save()
+            verifySession(user.id)
             redirect("/profile")
         } else {
             return {

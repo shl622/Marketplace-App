@@ -1,4 +1,7 @@
-import { notFound } from "next/navigation";
+import db from "@/lib/db";
+import getSession from "@/lib/session";
+import { verifySession } from "@/lib/userAuth/verifySession";
+import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -12,19 +15,53 @@ export async function GET(request: NextRequest) {
         code,
     }).toString()
     const accessTokenUrl = `https://github.com/login/oauth/access_token?${accessTokenParams}`
-    
+
     //send POST request
-    const accessTokenResponse = await fetch(accessTokenUrl,{
+    const accessTokenResponse = await fetch(accessTokenUrl, {
         method: "POST",
         headers: {
             Accept: "application/json"
         }
     })
-    const accessTokenData = await accessTokenResponse.json()
-    if ("error" in accessTokenData){
-        return new Response(null,{
-            status:400
+    const { error, access_token } = await accessTokenResponse.json()
+    if (error) {
+        return new Response(null, {
+            status: 400
         })
     }
-    return Response.json({accessTokenData})
+    //authorize via GH
+    const userProfileResponse = await fetch("https://api.github.com/user", {
+        headers: {
+            Authorization: `Bearer ${access_token}`
+        },
+        cache: "no-cache"
+    })
+    //poll data from the API: avatar,username and id
+    const { id, login, avatar_url } = await userProfileResponse.json()
+    const user = await db.user.findUnique({
+        where: {
+            github_id: id + ""
+        },
+        select: {
+            id: true
+        }
+    })
+    //if already signed in via GH:
+    if (user) {
+        verifySession(user.id)
+        return redirect("/profile")
+    }
+    //if new user:
+    const newUser = await db.user.create({
+        data: {
+            username: `${login}-gh`,
+            github_id: id + "",
+            avatar: avatar_url
+        },
+        select: {
+            id: true
+        }
+    })
+    verifySession(newUser.id)
+    return redirect("/profile")
 }

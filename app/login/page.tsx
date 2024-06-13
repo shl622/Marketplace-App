@@ -35,7 +35,8 @@ export default function LogIn() {
                     loadMsg="Logging in..."
                 />
             </form>
-            <SocialLogin />
+            <SocialLogin
+                category="Log in" />
         </div>
     )
 }
