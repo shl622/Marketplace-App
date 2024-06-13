@@ -11,7 +11,9 @@ const publicUrls: Routes = {
     "/": true,
     "/login": true,
     "/sms": true,
-    "/create-account": true
+    "/create-account": true,
+    "/github/start": true,
+    "/github/complete": true
 }
 //function name "middleware" and "config" should not be modified
 //make sure middleware does not run in unwanted paths

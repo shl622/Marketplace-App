@@ -15,6 +15,7 @@ async function getUser(){
             return user
         }
     }
+    //if user DNE or no cookie return 404
     notFound()
 }
 
