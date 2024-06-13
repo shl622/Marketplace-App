@@ -20,13 +20,18 @@ const publicUrls: Routes = {
 export async function middleware(request: NextRequest) {
     const session = await getSession()
     const exists = publicUrls[request.nextUrl.pathname]
-    //if cookie DNE in session
+    //if cookie DNE in session (not logged in)
     if (!session.id) {
         //if the user's desired url DNE in middleware boundary
         if (!exists) {
             return NextResponse.redirect(new URL("/", request.url))
         }
-        // *** what if user is already logged in and wants to go to new user creation page? ***
+    }
+     // *** what if user is already logged in and wants to go to new user creation page? ***
+    else{
+        if(exists){
+            return NextResponse.redirect(new URL("/profile",request.url))
+        }
     }
 }
 

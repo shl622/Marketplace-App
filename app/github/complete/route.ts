@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
             status: 400
         })
     }
+   
     //authorize via GH
     const userProfileResponse = await fetch("https://api.github.com/user", {
         headers: {
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
         cache: "no-cache"
     })
     //poll data from the API: avatar,username and id
-    const { id, login, avatar_url } = await userProfileResponse.json()
+    const { id, login, avatar_url,email} = await userProfileResponse.json()
     const user = await db.user.findUnique({
         where: {
             github_id: id + ""
@@ -55,7 +56,8 @@ export async function GET(request: NextRequest) {
         data: {
             username: `${login}-gh`,
             github_id: id + "",
-            avatar: avatar_url
+            avatar: avatar_url,
+            email: email
         },
         select: {
             id: true
