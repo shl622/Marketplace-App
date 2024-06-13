@@ -56,11 +56,12 @@ export async function login(prevState: any, formData: FormData) {
             }
         }
         //second argument --> if user doesn't send information
-        const ok = await bcrypt.compare(result.data.password, user!.password ?? "xxxx")
-        console.log(ok)
-        if (ok) {
+        const verified = await bcrypt.compare(result.data.password, user!.password ?? "xxxx")
+        if (verified) {
             const session = await getSession()
             session.id = user!.id
+            //save the session every time it is created
+            await session.save()
             redirect("/profile")
         } else {
             return {
@@ -69,8 +70,5 @@ export async function login(prevState: any, formData: FormData) {
                 }
             }
         }
-        //if user is found -> check password hash
-        //if pw hash correct -> log in ->redirect 
-
     }
 }
