@@ -10,6 +10,7 @@ import bcrypt from "bcrypt"
 import { getIronSession } from "iron-session"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
+import getSession from "@/lib/session"
 
 //check if username is unique
 const checkUniqueUsername = async (username: string) => {
@@ -72,6 +73,7 @@ export async function initAccount(prevState: any, formData: FormData) {
         confirm_password: formData.get("confirm_password")
     }
     //safeParseAsync() to make zod use "await" for all verification that are async
+    // can use spa = safeParseAsync()
     //flatten allows for an abbreviated 
     const result = await formSchema.safeParseAsync(data)
     if (!result.success) {
@@ -91,15 +93,10 @@ export async function initAccount(prevState: any, formData: FormData) {
         })
         //log in user-- use cookies and encrypt/decrypt
         //https://www.npmjs.com/package/iron-session?activeTab=readme
-        const cookie = await getIronSession(cookies(), {
-            cookieName: "cookie-forreal",
-            password: process.env.COOKIE_PW!
-        })
-        //@ts-ignore
-        cookie.id = user.id;
-        (await cookie).save()
+        const session = await getSession()
+        session.id = user.id;
+        await session.save()
         // redirect to home
-        redirect("/profile")
     }
 
 }
