@@ -57,7 +57,7 @@ export async function login(prevState: any, formData: FormData) {
         //second argument --> if user doesn't send information
         const verified = await bcrypt.compare(result.data.password, user!.password ?? "xxxx")
         if (verified) {
-            verifySession(user.id)
+            await verifySession(user.id)
             redirect("/profile")
         } else {
             return {

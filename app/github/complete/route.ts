@@ -1,5 +1,4 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
 import { verifySession } from "@/lib/userAuth/verifySession";
 import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
@@ -48,7 +47,7 @@ export async function GET(request: NextRequest) {
     })
     //if already signed in via GH:
     if (user) {
-        verifySession(user.id)
+        await verifySession(user.id)
         return redirect("/profile")
     }
     //if new user:
@@ -62,6 +61,6 @@ export async function GET(request: NextRequest) {
             id: true
         }
     })
-    verifySession(newUser.id)
+    await verifySession(newUser.id)
     return redirect("/profile")
 }

@@ -1,5 +1,4 @@
 export function GET() {
-    console.log("get!")
     const baseURL = "https://github.com/login/oauth/authorize"
     const params = {
         client_id: process.env.GITHUB_CLIENT_ID!,

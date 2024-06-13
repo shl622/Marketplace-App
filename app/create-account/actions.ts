@@ -100,7 +100,7 @@ export async function initAccount(prevState: any, formData: FormData) {
                 id: true
             }
         })
-        verifySession(user.id)
+        await verifySession(user.id)
         redirect("/profile")
     }
 
