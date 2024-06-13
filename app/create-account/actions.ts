@@ -7,13 +7,29 @@ import {
 } from "@/lib/constants"
 import db from "@/lib/db"
 import bcrypt from "bcrypt"
-import { getIronSession } from "iron-session"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
 import getSession from "@/lib/session"
 
-//check if username is unique
-const checkUniqueUsername = async (username: string) => {
+//password and confirm_pw match validation
+const checkPassword = ({ password, confirm_password }: { password: string, confirm_password: string }) =>
+    password === confirm_password
+
+//schema "requires" fields-- put .optional() to make opt
+//superRefine with fatal makes hit db once
+const formSchema = z.object({
+    username: z.string({
+        invalid_type_error: "Username must be a string",
+        required_error: "Username is required."
+    }).min(usernameMinLength, usernameMinError)
+        .max(usernameMaxLength, usernameMaxError)
+        .toLowerCase()
+        .trim(),
+    email: z.string()
+        .email()
+        .trim()
+        .toLowerCase(),
+    password: z.string().min(passwordMinLength).regex(passwordRegex, passwordRegexError),
+    confirm_password: z.string().min(passwordMinLength),
+}).superRefine(async ({ username }, context) => {
     const user = await db.user.findUnique({
         where: {
             username
@@ -22,11 +38,16 @@ const checkUniqueUsername = async (username: string) => {
             id: true
         }
     })
-    return !Boolean(user)
-}
-
-//check if email is unique
-const checkUniqueEmail = async (email: string) => {
+    if (user) {
+        context.addIssue({
+            code: 'custom',
+            message: 'Username already exists',
+            path: ["username"],
+            fatal:true
+        })
+        return z.NEVER
+    }
+}).superRefine(async ({ email }, context) => {
     const user = await db.user.findUnique({
         where: {
             email
@@ -35,30 +56,15 @@ const checkUniqueEmail = async (email: string) => {
             id: true
         }
     })
-    return Boolean(user) === false
-}
-
-//password and confirm_pw match validation
-const checkPassword = ({ password, confirm_password }: { password: string, confirm_password: string }) =>
-    password === confirm_password
-
-//schema "requires" fields-- put .optional() to make opt
-const formSchema = z.object({
-    username: z.string({
-        invalid_type_error: "Username must be a string",
-        required_error: "Username is required."
-    }).min(usernameMinLength, usernameMinError)
-        .max(usernameMaxLength, usernameMaxError)
-        .toLowerCase()
-        .trim()
-        .refine(checkUniqueUsername, "Username already exists!"),
-    email: z.string()
-        .email()
-        .trim()
-        .toLowerCase()
-        .refine(checkUniqueEmail, "Email already exists!"),
-    password: z.string().min(passwordMinLength).regex(passwordRegex, passwordRegexError),
-    confirm_password: z.string().min(passwordMinLength),
+    if (user) {
+        context.addIssue({
+            code: 'custom',
+            message: 'Account already exists with the email',
+            path: ["email"],
+            fatal:true
+        })
+        return z.NEVER
+    }
 }).refine(checkPassword, {
     message: "Password does not match.",
     //need to set path to tell zod which field this error belongs to
@@ -77,6 +83,7 @@ export async function initAccount(prevState: any, formData: FormData) {
     //flatten allows for an abbreviated 
     const result = await formSchema.safeParseAsync(data)
     if (!result.success) {
+        console.log(result.error.flatten())
         return result.error.flatten()
     } else {
         // bcrypt.hash (hash_target,# of rounds)
