@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/16/solid"
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 interface SocialLoginProps {
     category: string
@@ -15,6 +15,11 @@ export default function SocialLogin({ category }: SocialLoginProps) {
                     href="/github/start">
                     <span><FaGithub className="h-6 w-6" /></span>
                     <span>{category} with GitHub</span>
+                </Link>
+                <Link className="primary-btn flex h-10 items-center justify-center gap-3"
+                    href="/google/start">
+                    <span><FaGoogle className="h-6 w-6" /></span>
+                    <span>{category} with Google</span>
                 </Link>
                 <Link className="primary-btn flex h-10 items-center justify-center gap-3"
                     href="/sms">
