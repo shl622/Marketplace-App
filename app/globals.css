@@ -11,6 +11,6 @@
 @layer components{
     .primary-btn{
         @apply w-full h-10 bg-orange-500 font-semibold text-white text-center
-        rounded-md hover:bg-orange-400 transition-colors;
+        rounded-md hover:bg-orange-400 transition-colors text-lg;
     }
 }

@@ -17,6 +17,11 @@ export default function Home() {
             Login
           </Link>
         </div>
+        <div className="flex gap-2">
+          <Link href="/guest">
+            Continue as Guest
+          </Link>
+        </div>
       </div>
     </div>
   );
