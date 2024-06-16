@@ -13,10 +13,17 @@ interface ProductsListProps {
 export default function ProductList({ initialProducts }: ProductsListProps) {
     const [products, setProducts] = useState(initialProducts)
     const [isLoading, setIsLoading] = useState(false)
+    const [page, setPage] = useState(0)
+    const [isLastPage, setIsLastPage] = useState(false)
     const onLoadMoreClick = async()=>{
         setIsLoading(true)
-        const newProducts = await getMoreProducts(1)
-        setProducts(prev=>[...prev,...newProducts])
+        const newProducts = await getMoreProducts(page+1)
+        if (newProducts.length !== 0){
+            setPage((prev)=>prev + 1)
+            setProducts((prev)=>[...prev,...newProducts])
+        }else{
+            setIsLastPage(true)
+        }
         setIsLoading(false)
     }
     return (
@@ -24,13 +31,16 @@ export default function ProductList({ initialProducts }: ProductsListProps) {
             {products.map((product)=>(
                 <ListProduct key={product.id} {...product} />
             ))}
-            <button onClick={onLoadMoreClick}
-            disabled={isLoading}
-            className="text-sm font-semibold
-            bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md
-            hover:opacity-90 active:scale-95">
-                {isLoading ? "loading..." : "Show More"}
-            </button>
+            {isLastPage ? ("No more items"):(
+                <button onClick={onLoadMoreClick}
+                disabled={isLoading}
+                className="text-sm font-semibold
+                bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md
+                hover:opacity-90 active:scale-95">
+                    {isLoading ? "loading..." : "Show More"}
+                </button>
+            )}
+            
         </div>
     )
 }

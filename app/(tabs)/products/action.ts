@@ -13,7 +13,7 @@ export async function getMoreProducts(page:number){
         },
         //take tells how many data points to fetch
         //next load skips first one
-        skip:1,
+        skip:page*1,
         take:1,
         //sort by youngest to oldest product
         orderBy:{
