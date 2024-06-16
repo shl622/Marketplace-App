@@ -17,3 +17,8 @@ export const passwordRegex = new RegExp(
 //regex error message
 export const passwordRegexError = "Password must contain lowercase, UPPERCASE, one number and one special character."
 
+//File upload check Megabytes
+export const MB = 1048576;
+
+//Alert message for when file is not image
+export const addImageMsg = "Please upload images only"
