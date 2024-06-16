@@ -41,6 +41,6 @@ model Product {
   photo       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user       User     @relation(fields: [userID], references: [id])
+  user       User     @relation(fields: [userID], references: [id], onDelete: Cascade)
   userID     Int
 }

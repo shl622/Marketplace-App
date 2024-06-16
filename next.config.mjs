@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    //can optimize which url to optimize for images
+    images:{
+        domains:[process.env.AWS_S3_URI]
+    }
 };
 
 export default nextConfig;
