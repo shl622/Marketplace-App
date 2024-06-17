@@ -63,7 +63,7 @@ export default function AddProduct() {
     const [state, dispatch] = useFormState(interceptAction, null);
     return (
         <div>
-            <Link href="/products" className="size-15 relative top-2.5 bottom-0 right-0 left-5">
+            <Link href="/home" className="size-15 relative top-2.5 bottom-0 right-0 left-5">
                 <FaRegArrowAltCircleLeft className="size-10" />
             </Link>
             <form action={dispatch} className="p-5 flex flex-col gap-5">

@@ -63,7 +63,7 @@ export default async function ProductDetail({ params,
   return (
     <div>
       <div className="flex">
-        <Link href="/products" className="size-15 mt-3 mb-3">
+        <Link href="/home" className="size-15 mt-3 mb-3">
           <FaRegArrowAltCircleLeft className="size-10" />
         </Link>
       </div>

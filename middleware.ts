@@ -25,6 +25,10 @@ export async function middleware(request: NextRequest) {
         //if the user's desired url DNE in middleware boundary
         if (!exists) {
             return NextResponse.redirect(new URL("/", request.url))
+        }else{
+            if(exists){
+                return NextResponse.redirect(new URL("/home",request.url))
+            }
         }
     }
      // *** what if user is already logged in and wants to go to new user creation page? ***
