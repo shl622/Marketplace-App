@@ -16,7 +16,7 @@ async function getInitialProducts(){
             id:true
         },
         //take tells how many data points to fetch
-        take:1,
+        take:10,
         //sort by youngest to oldest product
         orderBy:{
             created_at:"desc"
