@@ -75,7 +75,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
               </span>
             </div>
             <div>
-              <button onClick={reloadButton}>Visit Product</button>
+              <button className="text-orange-500 hover:text-orange-600 transition-all" onClick={reloadButton}>Visit Product</button>
             </div>
           </div>
         </div>
