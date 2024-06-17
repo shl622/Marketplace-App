@@ -3,13 +3,12 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import { FormEvent, useState } from "react";
+import {  useState } from "react";
 import { getUploadUrl, uploadProduct } from "./action";
 import { MB } from "@/lib/constants";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 export default function AddProduct() {
     const [preview, setPreview] = useState<string>("")

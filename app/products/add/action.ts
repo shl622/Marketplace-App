@@ -4,7 +4,6 @@ import db from "@/lib/db"
 import getSession from "@/lib/session"
 import { redirect } from "next/navigation"
 import { z } from "zod"
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 
 const productSchema = z.object({
     photo: z.string({

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { formatToUsd } from "@/lib/util"
 import Image from "next/image"
 import { UserIcon } from "@heroicons/react/24/solid"
+import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 
 //function to validate if user viewing is owner or potential buyer
 async function getIsOwner(userId: number) {
@@ -61,10 +62,15 @@ export default async function ProductDetail({ params,
 
   return (
     <div>
+      <div className="flex">
+        <Link href="/products" className="size-15 mt-3 mb-3">
+          <FaRegArrowAltCircleLeft className="size-10" />
+        </Link>
+      </div>
       <div className="relative aspect-square">
         <Image className="object-cover" fill src={`${product.photo}/public`} alt={product.title} />
       </div>
-      <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
+      <div className="p-5 mt-auto flex items-center gap-3 border-b border-neutral-700">
         <div className="size-10 overflow-hidden rounded-full">
           {product.user.avatar !== null ? (
             <Image
@@ -97,17 +103,16 @@ export default async function ProductDetail({ params,
               Delete product
             </button>
           ) : null}
-          {isOwner ? (
-            <button className="bg-cyan-500 px-5 py-2.5 rounded-md text-white font-semibold" type="submit">
-              Edit product
-            </button>
-          ) : <Link
-            className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold
+          {!isOwner ? (
+            <Link
+              className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold
             hover:bg-orange-600 transition-all"
-            href={``}
-          >
-            Chat
-          </Link>}
+              href={``}
+            >
+              Chat
+            </Link>
+
+          ) : null}
         </form>
       </div>
     </div>
