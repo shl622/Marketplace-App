@@ -34,6 +34,14 @@ async function getProduct(id: number) {
   return product
 }
 
+// export async function generateMetadata({ params,
+// }: { params: { id: string } }){
+//   const product = await getProduct(Number(params.id))
+//   return{
+//     title: `Product!! ${product?.title}`
+//   }
+// }
+
 export default async function ProductDetail({ params,
 }: { params: { id: string } }) {
   //check if string is actually a number

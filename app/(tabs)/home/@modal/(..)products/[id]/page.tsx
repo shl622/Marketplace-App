@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { UserIcon } from '@heroicons/react/24/solid';
 import { formatToUsd } from '@/lib/util';
+import Link from 'next/link';
+import reloadButton from '@/components/reload-button';
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -71,6 +73,9 @@ export default async function Modal({ params }: { params: { id: string } }) {
               <span className='font-semibold text-xl'>
                 ${formatToUsd(product.price)}
               </span>
+            </div>
+            <div>
+              <button onClick={reloadButton}>Visit Product</button>
             </div>
           </div>
         </div>

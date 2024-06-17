@@ -6,20 +6,20 @@ import ProductList from "@/components/product-list"
 import { PlusIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 
-async function getInitialProducts(){
+async function getInitialProducts() {
     const products = await db.product.findMany({
-        select:{
-            title:true,
-            price:true,
-            created_at:true,
-            photo:true,
-            id:true
+        select: {
+            title: true,
+            price: true,
+            created_at: true,
+            photo: true,
+            id: true
         },
         //take tells how many data points to fetch
-        take:10,
+        take: 10,
         //sort by youngest to oldest product
-        orderBy:{
-            created_at:"desc"
+        orderBy: {
+            created_at: "desc"
         }
     })
     return products
@@ -27,16 +27,16 @@ async function getInitialProducts(){
 
 export type initialProducts = Prisma.PromiseReturnType<typeof getInitialProducts>
 
-export default async function Home(){
+export default async function Home() {
     const initialProducts = await getInitialProducts()
     //placeholder atm
-    return(
+    return (
         <div>
-            <ProductList initialProducts={initialProducts}/>
-            <Link href="/addProduct" 
-            className="bg-orange-500 flex items-center justify-center rounded-full
+            <ProductList initialProducts={initialProducts} />
+            <Link href="/addProduct"
+                className="bg-orange-500 flex items-center justify-center rounded-full
             size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400 ">
-            <PlusIcon className="size-10"/>
+                <PlusIcon className="size-10" />
             </Link>
         </div>
     )
