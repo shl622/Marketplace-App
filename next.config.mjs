@@ -1,8 +1,17 @@
+import { hostname } from 'os';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images:{
-        domains:[process.env.AWS_S3_URI]
-    }
-};
+    images: {
+      remotePatterns: [
+        {
+          hostname: "avatars.githubusercontent.com",
+        },
+        {
+          hostname: "imagedelivery.net",
+        },
+      ],
+    },
+  };
 
 export default nextConfig;
