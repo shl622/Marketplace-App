@@ -21,7 +21,7 @@ export default function EditForm({ title, price, description, photo }: productPr
     const [preview, setPreview] = useState<string>(`${photo}/public`)
     const [uploadURL, setUploadURL] = useState<string>("")
     const [photoId, setPhotoId] = useState("")
-    console.log("image url," ,preview)
+    // console.log("image url," ,preview)
     //handle when file uploaded is greater than 10MB 
     const isOversizeImage = (file: File): boolean => {
         if (file.size > 10 * MB) {
@@ -60,7 +60,7 @@ export default function EditForm({ title, price, description, photo }: productPr
             method: "post",
             body: cloudflareForm,
         });
-        console.log(await response.text());
+        // console.log(await response.text());
         if (response.status !== 200) {
             return alert("Failed to Upload Image");
         }

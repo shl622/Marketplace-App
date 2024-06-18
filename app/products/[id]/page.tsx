@@ -7,7 +7,7 @@ import { formatToUsd } from "@/lib/util"
 import Image from "next/image"
 import { UserIcon } from "@heroicons/react/24/solid"
 import { FaRegArrowAltCircleLeft } from "react-icons/fa"
-import { unstable_cache as nextCache } from "next/cache"
+import { unstable_cache as nextCache, revalidatePath, revalidateTag } from "next/cache"
 
 //function to validate if user viewing is owner or potential buyer
 async function getIsOwner(userId: number) {
@@ -36,29 +36,29 @@ async function getProduct(id: number) {
 }
 
 //save product and title in cache so it doesn't hit db on every request
-const getCachedProduct = nextCache(getProduct,["product-detail"],{
-  tags:["product-detail"]
+const getCachedProduct = nextCache(getProduct, ["product-detail"], {
+  tags: ["product-detail"]
 })
-const getCachedProductTitle = nextCache(getProductTitle,["product-title"],{
-  tags:["product-title", "product-detail"]
+const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
+  tags: ["product-title", "product-detail"]
 })
 
-async function getProductTitle(id:number){
+async function getProductTitle(id: number) {
   const product = await db.product.findUnique({
-    where:{
+    where: {
       id,
     },
-    select:{
-      title:true
+    select: {
+      title: true
     }
   })
   return product
 }
 
 export async function generateMetadata({ params,
-}: { params: { id: string } }){
+}: { params: { id: string } }) {
   const product = await getCachedProductTitle(Number(params.id))
-  return{
+  return {
     title: `${product?.title}`
   }
 }
@@ -86,7 +86,9 @@ export default async function ProductDetail({ params,
         id: id
       }
     })
-    redirect("/products")
+    revalidatePath("/home")
+    revalidateTag("/product-detail")
+    redirect("/home")
   }
 
   return (
