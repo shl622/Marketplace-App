@@ -4,6 +4,7 @@ import db from "@/lib/db"
 import getSession from "@/lib/session"
 import { redirect } from "next/navigation"
 import { z } from "zod"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 const productSchema = z.object({
     photo: z.string({
@@ -65,6 +66,9 @@ export async function uploadProduct(_: any, formData: FormData) {
                     id: true
                 }
             })
+            //revalidate cache when user adds product
+            revalidatePath("/home")
+            revalidateTag("/product-detail")
             redirect(`/products/${product.id}`)
         }
     }
