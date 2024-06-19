@@ -43,7 +43,10 @@ async function getPost(id: number) {
     }
 }
 
-const getCachedPosts = nextCache(getPost, ["post-detail"])
+const getCachedPosts = nextCache(getPost, ["post-detail"],{
+    tags:["post-detail"],
+    revalidate: 60
+})
 
 async function getLikeStatus(postId: number,userId:number) {
     const isLiked = await db.like.findUnique({
