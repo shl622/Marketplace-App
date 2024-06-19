@@ -4,15 +4,15 @@ import {
     HomeIcon as SolidHomeIcon,
     ShoppingBagIcon as SolidShopIcon,
     UserCircleIcon as SolidUserIcon,
-    MapPinIcon as SolidMapIcon,
-    ChatBubbleLeftRightIcon as SolidChatIcon
+    ChatBubbleLeftRightIcon as SolidCommIcon,
+    EnvelopeIcon as SolidChatIcon
 } from "@heroicons/react/24/solid";
 import {
     HomeIcon as OutlineHomeIcon,
     ShoppingBagIcon as OutlineShopIcon,
     UserCircleIcon as OutlineUserIcon,
-    MapPinIcon as OutlineMapIcon,
-    ChatBubbleLeftRightIcon as OutlineChatIcon
+    ChatBubbleLeftRightIcon as OutlineCommIcon,
+    EnvelopeIcon as OutlineChatIcon
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,9 +27,9 @@ export default function TabBar() {
                 {pathname === "/home" ? <SolidHomeIcon className="w-7 h-7"/>: <OutlineHomeIcon className="w-7 h-7"/>}
                 <span>Home</span>
             </Link>
-            <Link href="/life" className="flex flex-col items-center gap-px">
-                {pathname === "/life" ? <SolidMapIcon className="w-7 h-7"/>: <OutlineMapIcon className="w-7 h-7"/>}
-                <span>Nearby</span>
+            <Link href="/posts" className="flex flex-col items-center gap-px">
+                {pathname === "/posts" ? <SolidCommIcon className="w-7 h-7"/>: <OutlineCommIcon className="w-7 h-7"/>}
+                <span>Community</span>
             </Link>
             <Link href="/chat" className="flex flex-col items-center gap-px">
                 {pathname === "/chat" ? <SolidChatIcon className="w-7 h-7"/>: <OutlineChatIcon className="w-7 h-7"/>}
