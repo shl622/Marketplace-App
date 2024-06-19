@@ -81,6 +81,10 @@ export default async function ProductDetail({ params,
   //delete product
   async function deleteProduct() {
     "use server"
+    const confirm = window.confirm("Are you sure you want to delete this product?")
+    if (!confirm){
+      return
+    }
     await db.product.delete({
       where: {
         id: id
@@ -129,12 +133,6 @@ export default async function ProductDetail({ params,
         </span>
         <form className="flex gap-2" action={deleteProduct}>
           {isOwner ? (
-            <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold
-            hover:bg-red-600 transition-all">
-              Delete product
-            </button>
-          ) : null}
-          {isOwner ? (
             <Link
               className="bg-cyan-500 px-5 py-2.5 rounded-md text-white font-semibold
             hover:bg-cyan-600 transition-all"
@@ -143,6 +141,12 @@ export default async function ProductDetail({ params,
               Edit product
             </Link>
 
+          ) : null}
+          {isOwner ? (
+            <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold
+            hover:bg-red-600 transition-all">
+              Delete
+            </button>
           ) : null}
           {!isOwner ? (
             <Link
