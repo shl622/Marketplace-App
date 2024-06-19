@@ -9,7 +9,7 @@ import { useFormState } from "react-dom"
 import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 import Input from "./input"
 import Button from "./button"
-import { updateProduct } from "@/app/editProduct/[id]/action"
+import { deltePhoto, updateProduct } from "@/app/editProduct/[id]/action"
 
 interface productProps {
     id: number
@@ -24,6 +24,7 @@ export default function EditForm({ id, title, price, description, photo }: produ
     const [uploadURL, setUploadURL] = useState<string>("")
     const getPhotoId = photo.split("https://imagedelivery.net/XvN8YOhPq_mDUvyVxeq5wg/")[1]
     const [photoId, setPhotoId] = useState(`${getPhotoId}`)
+    const [ogphotoId, setOgPhotoId] = useState("")
     //handle when file uploaded is greater than 10MB 
     const isOversizeImage = (file: File): boolean => {
         if (file.size > 10 * MB) {
@@ -48,6 +49,7 @@ export default function EditForm({ id, title, price, description, photo }: produ
         if (success) {
             const { id, uploadURL } = result
             setUploadURL(uploadURL)
+            setOgPhotoId(photoId)
             setPhotoId(id)
         }
     }
@@ -55,6 +57,11 @@ export default function EditForm({ id, title, price, description, photo }: produ
         const file = formData.get("photo");
         if (!file) {
             return;
+        }
+        // delete photo from Cloudflare iff photo changed
+        if (ogphotoId !== ""){
+              console.log("Old photo needs to be deleted")
+              await deltePhoto(ogphotoId)
         }
         const cloudflareForm = new FormData();
         cloudflareForm.append("file", file);
@@ -80,19 +87,11 @@ export default function EditForm({ id, title, price, description, photo }: produ
                 <label htmlFor="photo" className="border-2
                 aspect-square flex items-center justify-center flex-col
                 text-netural-300 border-neutral-300 rounded-md border-dashed
-                cursor-pointer bg-center bg-cover"
+                cursor-pointer bg-center bg-cover text-sm"
                     style={{
                         backgroundImage: `url(${preview})`,
                     }}
-                >
-                    {preview === "" ? (
-                        <>
-                            <PhotoIcon className="w-20" />
-                            <div className="text-neutral-400 text-sm">
-                                Add Photo
-                                {state?.fieldErrors.photo}
-                            </div>
-                        </>) : null}
+                > Click image to edit
                 </label>
                 <input onChange={onImageChange} type="file" id="photo" name="photo"
                     className="hidden"

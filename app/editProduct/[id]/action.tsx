@@ -31,23 +31,23 @@ async function getProduct(id: number) {
     return product
 }
 
-export async function deletePhoto(imageId: string) {
-    console.log("deleting photo...")
-    await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CDF_ID}/images/v1/${imageId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${process.env.CDF_TOKEN}`,
-          "Content-Type": "application/json",
+export async function deltePhoto(id: string) {
+    const response = await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.CDF_ID}/images/v1/${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${process.env.CDF_TOKEN}`,
+                "Content-Type": "application/json",
+            },
         }
-      }
     )
-  }
+    return response.status
+}
 
 export async function updateProduct(_: any, formData: FormData) {
     const session = await getSession()
-    if (!session.id){
+    if (!session.id) {
         return
     }
     const data = {
@@ -60,11 +60,11 @@ export async function updateProduct(_: any, formData: FormData) {
     const result = productSchema.safeParse(data)
     if (!result.success) {
         return result.error.flatten()
-    } 
+    }
     else {
         const product = await db.product.update({
             where: {
-                id : result.data.id,
+                id: result.data.id,
             },
             data: {
                 title: result.data.title,
