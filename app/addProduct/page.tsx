@@ -3,7 +3,7 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import {  useState } from "react";
+import { useState } from "react";
 import { getUploadUrl, uploadProduct } from "./action";
 import { MB } from "@/lib/constants";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";

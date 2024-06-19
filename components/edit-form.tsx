@@ -9,19 +9,21 @@ import { useFormState } from "react-dom"
 import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 import Input from "./input"
 import Button from "./button"
+import { updateProduct } from "@/app/editProduct/[id]/action"
 
 interface productProps {
+    id: number
     title: string
     price: number
     description: string
     photo: string
 }
 
-export default function EditForm({ title, price, description, photo }: productProps) {
+export default function EditForm({ id, title, price, description, photo }: productProps) {
     const [preview, setPreview] = useState<string>(`${photo}/public`)
     const [uploadURL, setUploadURL] = useState<string>("")
-    const [photoId, setPhotoId] = useState("")
-    // console.log("image url," ,preview)
+    const getPhotoId = photo.split("https://imagedelivery.net/XvN8YOhPq_mDUvyVxeq5wg/")[1]
+    const [photoId, setPhotoId] = useState(`${getPhotoId}`)
     //handle when file uploaded is greater than 10MB 
     const isOversizeImage = (file: File): boolean => {
         if (file.size > 10 * MB) {
@@ -59,14 +61,14 @@ export default function EditForm({ title, price, description, photo }: productPr
         const response = await fetch(uploadURL, {
             method: "post",
             body: cloudflareForm,
-        });
-        // console.log(await response.text());
+        });    
         if (response.status !== 200) {
             return alert("Failed to Upload Image");
         }
         const photoUrl = `https://imagedelivery.net/XvN8YOhPq_mDUvyVxeq5wg/${photoId}`;
         formData.set("photo", photoUrl);
-        return uploadProduct(_, formData);
+        formData.set("id", id + "")
+        return updateProduct(_, formData);
     };
     const [state, dispatch] = useFormState(interceptAction, null);
     return (
@@ -105,7 +107,7 @@ export default function EditForm({ title, price, description, photo }: productPr
                     defaultValue={description}
                     placeholder="Please describe the item."
                     errors={state?.fieldErrors.description} />
-                <Button text="Confirm Edit" loadMsg="Uploading..." />
+                <Button text="Confirm Edit" loadMsg="Uploading Edit..." />
             </form>
         </div>
     )
