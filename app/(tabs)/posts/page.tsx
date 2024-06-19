@@ -30,7 +30,6 @@ export const metadata = {
 export default async function Life() {
     //placeholder atm
     const posts = await getPosts()
-    console.log(posts)
     return (
         <div>
             {posts.map((post) => (

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import { formatTime } from "@/lib/util"
 import { EyeIcon, HandThumbUpIcon, UserIcon } from "@heroicons/react/24/solid"
+import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline"
 import getSession from "@/lib/session"
 import { revalidatePath } from "next/cache"
 
@@ -37,18 +38,17 @@ async function getPost(id: number) {
         return post
     }
     catch (e) {
-        console.log("cant read post")
         return null
     }
 }
 
-async function getLike(postId: number){
+async function getLike(postId: number) {
     const session = await getSession()
     const like = await db.like.findUnique({
-        where:{
-            id:{
+        where: {
+            id: {
                 postId,
-                userId:session.id!,
+                userId: session.id!,
             }
         }
     })
@@ -106,15 +106,15 @@ export default async function PostDetail({ params }: { params: { id: string } })
             <div className="flex items-center gap-2 mb-2">
                 {post.user.avatar !== null ? (
                     <Image
-                      className="size-7 rounded-full"
-                      src={post.user.avatar}
-                      width={28}
-                      height={28}
-                      alt={post.user.username}
+                        className="size-7 rounded-full"
+                        src={post.user.avatar}
+                        width={28}
+                        height={28}
+                        alt={post.user.username}
                     />
-                  ) : (
-                    <UserIcon className="size-7 rounded-full"/>
-                  )}
+                ) : (
+                    <UserIcon className="size-7 rounded-full" />
+                )}
                 <div>
                     <span className="text-sm font-semibold">{post.user.username}</span>
                     <div className="text-xs">
@@ -131,10 +131,12 @@ export default async function PostDetail({ params }: { params: { id: string } })
                 </div>
                 <form action={isLiked ? dislikePost : likePost}>
                     <button
-                        className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 hover:bg-neutral-800 transition-colors`}
-                    >
-                        <HandThumbUpIcon className="size-5" />
-                        <span>Like ({post._count.likes})</span>
+                        className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 hover:bg-neutral-800 transition-colors
+                            ${isLiked ? "bg-orange-500 text-white border-orange-500" : ""}`}>
+                        {isLiked ? (<HandThumbUpIcon className="size-5" />)
+                            : (<OutlineHandThumbUpIcon className="size-5" />)}
+                        {isLiked ? (<span>{post._count.likes}</span>) :
+                            (<span>Like ({post._count.likes})</span>)}
                     </button>
                 </form>
             </div>

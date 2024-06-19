@@ -81,10 +81,6 @@ export default async function ProductDetail({ params,
   //delete product
   async function deleteProduct() {
     "use server"
-    const confirm = window.confirm("Are you sure you want to delete this product?")
-    if (!confirm){
-      return
-    }
     await db.product.delete({
       where: {
         id: id
