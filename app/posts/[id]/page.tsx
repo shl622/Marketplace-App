@@ -7,6 +7,7 @@ import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/o
 import getSession from "@/lib/session"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { unstable_cache as nextCache } from "next/cache"
+import LikeButton from "@/components/like-button"
 
 
 async function getPost(id: number) {
@@ -73,7 +74,6 @@ async function getCachedLikeStatus(postId:number,userId:number){
     {tags:[`like-status-${postId}`]})
     return cachedOperation(postId)
 }
-// const getCachedLikeStatus = nextCache(getLikeStatus, ["product-like-status"])
 
 export default async function PostDetail({ params }: { params: { id: string } }) {
     const id = Number(params.id)
@@ -85,41 +85,6 @@ export default async function PostDetail({ params }: { params: { id: string } })
         return notFound()
     }
 
-    //like post
-    const likePost = async () => {
-        "use server"
-        const session = await getSession()
-        try {
-            await db.like.create({
-                data: {
-                    postId: id,
-                    userId: session.id!,
-                }
-            })
-            revalidateTag(`like-status-${id}`)
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    //dislike post
-    const dislikePost = async () => {
-        "use server"
-        try {
-            const session = await getSession()
-            await db.like.delete({
-                where: {
-                    id: {
-                        postId: id,
-                        userId: session.id!,
-                    }
-                }
-            })
-            revalidateTag(`like-status-${id}`)
-        } catch (e) {
-            console.log(e)
-        }
-    }
     const session = await getSession()
     const { likeCount, isLiked } = await getCachedLikeStatus(id,session.id!)
 
@@ -151,16 +116,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
                     <EyeIcon className="size-5" />
                     <span>Views {post.views}</span>
                 </div>
-                <form action={isLiked ? dislikePost : likePost}>
-                    <button
-                        className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 hover:bg-neutral-800 transition-colors
-                            ${isLiked ? "bg-orange-500 text-white border-orange-500" : ""}`}>
-                        {isLiked ? (<HandThumbUpIcon className="size-5" />)
-                            : (<OutlineHandThumbUpIcon className="size-5" />)}
-                        {isLiked ? (<span>{likeCount}</span>) :
-                            (<span>Like ({likeCount})</span>)}
-                    </button>
-                </form>
+               <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id}/>
             </div>
         </div>
     )
