@@ -2,12 +2,11 @@ import db from "@/lib/db"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import { formatTime } from "@/lib/util"
-import { EyeIcon, HandThumbUpIcon, UserIcon } from "@heroicons/react/24/solid"
-import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline"
+import { EyeIcon, UserIcon } from "@heroicons/react/24/solid"
 import getSession from "@/lib/session"
-import { revalidatePath, revalidateTag } from "next/cache"
 import { unstable_cache as nextCache } from "next/cache"
 import LikeButton from "@/components/like-button"
+import Comment from "@/components/comment-button"
 import CommentList from "@/components/comment-list"
 
 
@@ -45,12 +44,12 @@ async function getPost(id: number) {
     }
 }
 
-const getCachedPosts = nextCache(getPost, ["post-detail"],{
-    tags:["post-detail"],
+const getCachedPosts = nextCache(getPost, ["post-detail"], {
+    tags: ["post-detail"],
     revalidate: 60
 })
 
-async function getLikeStatus(postId: number,userId:number) {
+async function getLikeStatus(postId: number, userId: number) {
     const isLiked = await db.like.findUnique({
         where: {
             id: {
@@ -70,9 +69,9 @@ async function getLikeStatus(postId: number,userId:number) {
     }
 }
 
-async function getCachedLikeStatus(postId:number,userId:number){
-    const cachedOperation = nextCache((postId)=>getLikeStatus(postId,userId),["product-like-status"],
-    {tags:[`like-status-${postId}`]})
+async function getCachedLikeStatus(postId: number, userId: number) {
+    const cachedOperation = nextCache((postId) => getLikeStatus(postId, userId), ["product-like-status"],
+        { tags: [`like-status-${postId}`] })
     return cachedOperation(postId)
 }
 
@@ -87,7 +86,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
     }
 
     const session = await getSession()
-    const { likeCount, isLiked } = await getCachedLikeStatus(id,session.id!)
+    const { likeCount, isLiked } = await getCachedLikeStatus(id, session.id!)
 
     return (
         <div className="p-5 text-white">
@@ -117,9 +116,10 @@ export default async function PostDetail({ params }: { params: { id: string } })
                     <EyeIcon className="size-5" />
                     <span>Views {post.views}</span>
                 </div>
-               <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id}/>
+                <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
             </div>
-            <CommentList/>
+                <Comment/>
+                <CommentList postId={id} />
         </div>
     )
 }
