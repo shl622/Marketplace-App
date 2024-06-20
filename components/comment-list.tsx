@@ -40,7 +40,7 @@ export default async function CommentList({ postId }: CommentProps) {
     const comments = await getComments(postId)
 
     return (
-        <div className="mt-32">
+        <div className="mt-6">
             {comments.map((comment) => (
                 <div key={comment.id} className="pb-5 mt-5 mb-5 border-b border-neutral-500
                 flex flex-col gap-2 last:pb-0 last:border-b-0">
@@ -61,7 +61,7 @@ export default async function CommentList({ postId }: CommentProps) {
                         </div>
                     </div>
                     <h2>{comment.payload}</h2>
-                    <div className="text-xs">
+                    <div className="text-xs text-neutral-400">
                         <span>{formatTime(comment.created_at.toString())}</span>
                     </div>
                 </div>
