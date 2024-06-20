@@ -8,6 +8,7 @@ import getSession from "@/lib/session"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { unstable_cache as nextCache } from "next/cache"
 import LikeButton from "@/components/like-button"
+import CommentList from "@/components/comment-list"
 
 
 async function getPost(id: number) {
@@ -118,6 +119,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
                 </div>
                <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id}/>
             </div>
+            <CommentList/>
         </div>
     )
 }

@@ -18,6 +18,9 @@ async function getPosts() {
                     likes: true,
                 }
             }
+        },
+        orderBy:{
+            created_at:"desc"
         }
     })
     return posts
@@ -27,7 +30,7 @@ export const metadata = {
     title: "Community"
 }
 
-export default async function Life() {
+export default async function Community() {
     //placeholder atm
     const posts = await getPosts()
     return (
