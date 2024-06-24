@@ -14,9 +14,9 @@ export default async function CommentList({ postId }: CommentProps) {
     //using db query and session id, if isOwner, show comment as owner
     //filter the list new>old
 
-    async function getComments(postId:number) {
+    async function getComments(postId: number) {
         const comments = await db.comment.findMany({
-            where:{
+            where: {
                 postId
             },
             select: {

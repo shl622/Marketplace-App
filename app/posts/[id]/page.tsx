@@ -8,6 +8,8 @@ import { unstable_cache as nextCache } from "next/cache"
 import LikeButton from "@/components/like-button"
 import Comment from "@/components/comment-button"
 import CommentList from "@/components/comment-list"
+import Link from "next/link"
+import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 
 
 async function getPost(id: number) {
@@ -118,8 +120,8 @@ export default async function PostDetail({ params }: { params: { id: string } })
                 </div>
                 <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
             </div>
-                <Comment/>
-                <CommentList postId={id} />
+            <Comment postId={id} />
+            <CommentList postId={id} />
         </div>
     )
 }
