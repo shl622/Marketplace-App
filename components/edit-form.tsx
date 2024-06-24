@@ -1,6 +1,6 @@
 "use client"
 
-import { getUploadUrl, uploadProduct } from "@/app/addProduct/action"
+import { getUploadUrl, uploadProduct } from "@/app/(add)/addProduct/action"
 import { MB } from "@/lib/constants"
 import { PhotoIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"

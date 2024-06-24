@@ -1,6 +1,6 @@
 "use client"
 
-import { uploadComment } from "@/app/posts/[id]/actions"
+import { uploadComment } from "@/app/(id)/posts/[id]/actions"
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid"
 import { useFormState } from "react-dom";
 interface CommentProps {
