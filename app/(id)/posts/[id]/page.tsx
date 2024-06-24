@@ -9,7 +9,6 @@ import LikeButton from "@/components/like-button"
 import Comment from "@/components/comment-button"
 import CommentList from "@/components/comment-list"
 import Link from "next/link"
-import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 
 
 async function getPost(id: number) {
@@ -44,6 +43,14 @@ async function getPost(id: number) {
     catch (e) {
         return null
     }
+}
+
+async function getIsOwner(userId: number) {
+    const session = await getSession()
+    if (session.id) {
+        return session.id === userId
+    }
+    return false
 }
 
 const getCachedPosts = nextCache(getPost, ["post-detail"], {
@@ -89,6 +96,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
 
     const session = await getSession()
     const { likeCount, isLiked } = await getCachedLikeStatus(id, session.id!)
+    const isOwner = await getIsOwner(post.userId)
 
     return (
         <div className="p-5 text-white">
@@ -111,8 +119,14 @@ export default async function PostDetail({ params }: { params: { id: string } })
                     </div>
                 </div>
             </div>
-            <h2 className="text-lg font-semibold">{post.title}</h2>
+            <h2 className="mt-3 text-lg font-semibold">{post.title}</h2>
             <p className="mb-5">{post.description}</p>
+            <div className="float float-right">
+            {isOwner ? (
+                        <span className="underline text-neutral-400 text-sm">Edit Post</span>)
+                        : null
+                    }
+            </div>
             <div className="flex flex-col gap-5 items-start">
                 <div className="flex items-center gap-2 text-neutral-400 text-sm">
                     <EyeIcon className="size-5" />

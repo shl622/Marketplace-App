@@ -14,7 +14,7 @@ export default function Comment({ postId }: CommentProps) {
     }
     const [state, dispatch] = useFormState(handleComment, null);
     return (
-        <div className="mt-16">
+        <div className="mt-8">
             <form className="flex flex-row gap-2" action={dispatch}>
                 <input
                     name="comment"
