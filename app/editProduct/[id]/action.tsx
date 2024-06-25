@@ -92,7 +92,8 @@ export default async function getOriginalProduct(id: number) {
             title: product.title,
             photo: product.photo,
             price: product.price,
-            description: product.description
+            description: product.description,
+            userId: product.userID
         })
     }
 }
