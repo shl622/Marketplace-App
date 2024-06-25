@@ -16,6 +16,14 @@ const postSchema = z.object({
     }),
 })
 
+export async function getIsOwner(userId:number){
+    const session = await getSession()
+    if (session.id){
+        return session.id === userId
+    }
+    return false
+}
+
 export async function updatePost(_:any, formData: FormData){
     const session = await getSession()
     if (!session.id){
@@ -65,7 +73,8 @@ export default async function getOriginalPost(id: number) {
         return ({
             id: post.id,
             title: post.title,
-            description: post.description
+            description: post.description,
+            userId: post.userId
         })
     }
 }
