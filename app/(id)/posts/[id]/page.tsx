@@ -123,7 +123,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
             <p className="mb-5">{post.description}</p>
             <div className="float float-right">
             {isOwner ? (
-                        <span className="underline text-neutral-400 text-sm">Edit Post</span>)
+                        <Link href={`/editPost/${id}`}className="underline text-neutral-400 text-sm">Edit Post</Link>)
                         : null
                     }
             </div>

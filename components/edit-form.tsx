@@ -1,8 +1,7 @@
 "use client"
 
-import { getUploadUrl, uploadProduct } from "@/app/(add)/addProduct/action"
+import { getUploadUrl } from "@/app/(add)/addProduct/action"
 import { MB } from "@/lib/constants"
-import { PhotoIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import { useState } from "react"
 import { useFormState } from "react-dom"
