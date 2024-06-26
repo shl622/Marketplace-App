@@ -8,20 +8,22 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  username  String     @unique
-  email     String?    @unique
-  password  String?
-  phone     String?    @unique
-  github_id String?    @unique
-  avatar    String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  tokens    SMSToken[]
-  products  Product[]
-  posts     Post[]
-  Comment   Comment[]
-  Like      Like[]
+  id         Int        @id @default(autoincrement())
+  username   String     @unique
+  email      String?    @unique
+  password   String?
+  phone      String?    @unique
+  github_id  String?    @unique
+  avatar     String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  tokens     SMSToken[]
+  products   Product[]
+  posts      Post[]
+  Comments   Comment[]
+  Likes      Like[]
+  chat_rooms ChatRoom[]
+  messages   Message[]
 }
 
 model SMSToken {
@@ -85,4 +87,28 @@ model Like {
   //only User can like a post once
   //combination of userId, postId is unique
   @@id(name: "id", [userId, postId])
+}
+
+model ChatRoom {
+  id    String @id @default(cuid())
+  users User[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  messages Message[]
+}
+
+model Message {
+  id      Int    @id @default(autoincrement())
+  payload String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  room ChatRoom @relation(fields: [chatRoomId], references: [id])
+  user User     @relation(fields: [userId], references: [id])
+
+  chatRoomId String
+  userId     Int
 }

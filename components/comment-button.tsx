@@ -9,7 +9,6 @@ interface CommentProps {
 
 export default function Comment({ postId }: CommentProps) {
     const handleComment = async (_:any,formData:FormData) =>{
-        console.log("post id is ", postId)
         uploadComment(_,formData,postId)
     }
     const [state, dispatch] = useFormState(handleComment, null);
