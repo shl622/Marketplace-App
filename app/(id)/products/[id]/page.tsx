@@ -8,6 +8,8 @@ import Image from "next/image"
 import { UserIcon } from "@heroicons/react/24/solid"
 import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 import { unstable_cache as nextCache, revalidatePath, revalidateTag } from "next/cache"
+import ChatRoom from "../../chats/[id]/page"
+import { createChatRoom } from "./action"
 
 //function to validate if user viewing is owner or potential buyer
 async function getIsOwner(userId: number) {
@@ -144,17 +146,17 @@ export default async function ProductDetail({ params,
               Delete
             </button>
           ) : null}
-          {!isOwner ? (
-            <Link
+        </form>
+        {!isOwner ? (
+          <form action={await createChatRoom(product.userID)}>
+            <button
               className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold
             hover:bg-orange-600 transition-all"
-              href={``}
             >
               Chat
-            </Link>
-
-          ) : null}
-        </form>
+            </button>
+          </form>
+        ) : null}
       </div>
     </div>
   )
