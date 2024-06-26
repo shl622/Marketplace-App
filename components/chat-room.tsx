@@ -4,7 +4,7 @@ import { InitialChatMessages } from "@/app/(id)/chats/[id]/page";
 import { formatTime } from "@/lib/util";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 interface ChatMessageListProps {
   initialMessages: InitialChatMessages;

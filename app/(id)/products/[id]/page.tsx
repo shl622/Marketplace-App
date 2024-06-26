@@ -94,24 +94,49 @@ export default async function ProductDetail({ params,
   const createChatRoom = async () => {
     "use server";
     const session = await getSession();
-    const room = await db.chatRoom.create({
-      data: {
+    const existRoom = await db.chatRoom.findFirst({
+      where: {
+        productId: product.id,
         users: {
-          connect: [
-            {
-              id: product.userID,
-            },
-            {
-              id: session.id,
-            },
-          ],
-        },
+          some: {
+            id: {
+              in: [session.id!]
+            }
+          }
+        }
       },
       select: {
-        id: true,
-      },
-    });
-    redirect(`/chats/${room.id}`);
+        id: true
+      }
+    })
+    if (existRoom) {
+      redirect(`/chats/${existRoom.id}`);
+    }
+    else {
+      const room = await db.chatRoom.create({
+        data: {
+          users: {
+            connect: [
+              {
+                id: product.userID,
+              },
+              {
+                id: session.id,
+              },
+            ]
+          },
+          product: {
+            connect: {
+              id: product.id
+            }
+          }
+        },
+        select: {
+          id: true,
+        },
+      });
+      redirect(`/chats/${room.id}`);
+    }
   };
 
   return (
@@ -168,16 +193,16 @@ export default async function ProductDetail({ params,
             </button>
           ) : null}
         </form>
-          {!isOwner ? (
-            <form action={createChatRoom}>
-              <button
-                className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold
+        {!isOwner ? (
+          <form action={createChatRoom}>
+            <button
+              className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold
               hover:bg-orange-600 transition-all"
-              >
-                Chat
-              </button>
-            </form>
-          ) : null}
+            >
+              Chat
+            </button>
+          </form>
+        ) : null}
       </div>
     </div>
   )
