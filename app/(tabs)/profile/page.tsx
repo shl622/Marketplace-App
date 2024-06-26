@@ -1,6 +1,8 @@
 import db from "@/lib/db"
 import getSession from "@/lib/session"
 import { notFound, redirect } from "next/navigation"
+import Image from "next/image"
+import { UserIcon } from "@heroicons/react/24/solid"
 
 //testing purposes for session
 async function getUser(){
@@ -28,8 +30,21 @@ export default async function Profile(){
         redirect("/")
     }
     return(
-        <div>
-            <h1>Welcome! {user?.username}!</h1>
+        <div className="flex flex-col gap-5 p-5">
+            <h1>Welcome, {user?.username}!</h1>
+            <div>
+            {user.avatar !== null ? (
+                    <Image
+                        className="size-7 rounded-full"
+                        src={user.avatar}
+                        width={28}
+                        height={28}
+                        alt={user.username}
+                    />
+                ) : (
+                    <UserIcon className="size-7 rounded-full" />
+                )}
+            </div>
             <form action={logOut}>
                 <button>Log out</button>
             </form>
