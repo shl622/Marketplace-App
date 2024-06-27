@@ -2,6 +2,7 @@
 
 import db from "@/lib/db"
 import getSession from "@/lib/session"
+import { revalidatePath } from "next/cache"
 
 export async function saveMessage(payload: string, chatRoomId: string) {
     const session = await getSession()
@@ -15,4 +16,5 @@ export async function saveMessage(payload: string, chatRoomId: string) {
             id:true
         }
     })
+    revalidatePath("/chat")
 }

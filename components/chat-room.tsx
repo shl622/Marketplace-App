@@ -5,6 +5,7 @@ import { InitialChatMessages } from "@/app/(id)/chats/[id]/page";
 import { formatTime } from "@/lib/util";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
+import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
