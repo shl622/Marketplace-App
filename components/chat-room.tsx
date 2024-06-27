@@ -5,9 +5,10 @@ import { InitialChatMessages } from "@/app/(id)/chats/[id]/page";
 import { formatTime } from "@/lib/util";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { UserIcon } from "@heroicons/react/24/solid";
+
 
 //public api keys for Supabase
 //using string ID for chatroom- so not easy for channels to be compromised
@@ -94,13 +95,14 @@ export default function ChatMessagesList({
                         }`}
                 >
                     {message.userId === userId ? null : (
-                        <Image
-                            src={message.user.avatar ? message.user.avatar : ""}
+                        message.user.avatar ? (<Image
+                            src={message.user.avatar}
                             alt={message.user.username}
                             width={50}
                             height={50}
                             className="size-8 rounded-full"
                         />
+                    ): <UserIcon className="size-8"/>
                     )}
                     <div
                         className={`flex flex-col gap-1 ${message.userId === userId ? "items-end" : ""

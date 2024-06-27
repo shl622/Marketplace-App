@@ -2,11 +2,12 @@
 
 import { formatTime } from "@/lib/util"
 import Link from "next/link"
+import { UserIcon } from "@heroicons/react/24/solid"
 
 export interface Message {
     id: string
     payload: string
-    created_at:Date
+    created_at: Date
     user: {
         username: string
         avatar: string | null
@@ -33,8 +34,8 @@ export default function ChatList({ chatRooms }: ChatRoomProps) {
                             {message.user.avatar ? (
                                 <img src={message.user.avatar} alt={`${message.user.username}`} className="w-12 h-12 rounded-full" />
                             ) : (
-                                <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
-                                    <span>{message.user.username.charAt(0).toUpperCase()}</span>
+                                <div className="w-12 h-12 rounded-full">
+                                    <UserIcon />
                                 </div>
                             )}
                             <div className="flex flex-col gap-2">
