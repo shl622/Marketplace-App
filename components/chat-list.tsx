@@ -30,7 +30,7 @@ export default function ChatList({ chatRooms }: ChatRoomProps) {
                 return (
                     <Link key={chatRoomId} href={`/chats/${chatRoomId}`} className="
                     text-neutral-400">
-                        <div className="flex flex-row gap-16 items-center p-4 border-b">
+                        <div className="flex flex-row gap-16 items-center p-4 border-b border-neutral-500">
                             {message.user.avatar ? (
                                 <img src={message.user.avatar} alt={`${message.user.username}`} className="w-12 h-12 rounded-full" />
                             ) : (

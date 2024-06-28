@@ -3,17 +3,18 @@ import getSession from "@/lib/session"
 import { notFound, redirect } from "next/navigation"
 import Image from "next/image"
 import { UserIcon } from "@heroicons/react/24/solid"
+import { logOut } from "./action"
 
 //testing purposes for session
-async function getUser(){
+async function getUser() {
     const session = await getSession()
-    if (session.id){
+    if (session.id) {
         const user = await db.user.findUnique({
-            where:{
+            where: {
                 id: session.id
             }
         })
-        if(user){
+        if (user) {
             return user
         }
     }
@@ -21,19 +22,14 @@ async function getUser(){
     notFound()
 }
 
-export default async function Profile(){
+export default async function Profile() {
     const user = await getUser()
-    const logOut = async () =>{
-        "use server";
-        const session = await getSession()
-        await session.destroy();
-        redirect("/")
-    }
-    return(
+    return (
         <div className="flex flex-col gap-5 p-5">
-            <h1>Welcome, {user?.username}!</h1>
-            <div>
-            {user.avatar !== null ? (
+            <div className="flex flex-col gap-3">
+                <h1>Welcome, {user?.username}!</h1>
+
+                {user.avatar !== null ? (
                     <Image
                         className="size-7 rounded-full"
                         src={user.avatar}
@@ -44,10 +40,16 @@ export default async function Profile(){
                 ) : (
                     <UserIcon className="size-7 rounded-full" />
                 )}
+
             </div>
-            <form action={logOut}>
-                <button>Log out</button>
-            </form>
+            <div className="mt-5">
+                <span>Change avatar</span>
+            </div>
+            <div className="absolute bottom-96">
+                <form action={logOut}>
+                    <button>Log out</button>
+                </form>
+            </div>
         </div>
     )
 }
