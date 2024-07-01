@@ -25,16 +25,16 @@ async function getUser() {
 export default async function Profile() {
     const user = await getUser()
     return (
-        <div className="flex flex-col gap-5 p-5">
-            <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-8 p-5 justify-center">
+            <div className="flex flex-col gap-5 items-center">
                 <h1>Welcome, {user?.username}!</h1>
 
                 {user.avatar !== null ? (
                     <Image
-                        className="size-7 rounded-full"
+                        className="size-28 rounded-full"
                         src={user.avatar}
-                        width={28}
-                        height={28}
+                        width={100}
+                        height={100}
                         alt={user.username}
                     />
                 ) : (
@@ -42,12 +42,18 @@ export default async function Profile() {
                 )}
 
             </div>
-            <div className="mt-5">
-                <span>Change avatar</span>
+            <div>
+                <h1>My Products</h1>
             </div>
-            <div className="absolute bottom-96">
+            <div>
+                <h1>My Comments</h1>
+            </div>
+            <div>
+                <h1>My Posts</h1>
+            </div>
+            <div className="flex flex-col mt-96 items-center">
                 <form action={logOut}>
-                    <button>Log out</button>
+                    <button className="primary-btn h-10 w-96">Log out</button>
                 </form>
             </div>
         </div>

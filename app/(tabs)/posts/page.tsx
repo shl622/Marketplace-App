@@ -40,7 +40,7 @@ export default async function Community() {
                 <Link
                     key={post.id}
                     href={`/posts/${post.id}`}
-                    className="pb-5 mt-5 mb-5 border-b border-neutral-500 text-neutral-400 flex  flex-col gap-2 last:pb-0 last:border-b-0"
+                    className="pb-5 mt-5 mb-5 ml-2 mr-2 border-b border-neutral-500 text-neutral-400 flex  flex-col gap-2 last:pb-0 last:border-b-0"
                 >
                     <h2 className="text-white text-lg font-semibold">{post.title}</h2>
                     <p>{post.description}</p>
