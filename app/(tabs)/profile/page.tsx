@@ -25,35 +25,36 @@ async function getUser() {
 export default async function Profile() {
     const user = await getUser()
     return (
-        <div className="flex flex-col gap-8 p-5 justify-center">
-            <div className="flex flex-col gap-5 items-center">
-                <h1>Welcome, {user?.username}!</h1>
+        <div className="flex flex-col gap-8 p-5 justify-between">
+            <div>
+                <div className="flex flex-col gap-5 items-center">
+                    <h1>Welcome, {user?.username}!</h1>
+                    {user.avatar !== null ? (
+                        <Image
+                            className="size-28 rounded-full"
+                            src={user.avatar}
+                            width={100}
+                            height={100}
+                            alt={user.username}
+                        />
+                    ) : (
+                        <UserIcon className="size-28 rounded-full" />
+                    )}
 
-                {user.avatar !== null ? (
-                    <Image
-                        className="size-28 rounded-full"
-                        src={user.avatar}
-                        width={100}
-                        height={100}
-                        alt={user.username}
-                    />
-                ) : (
-                    <UserIcon className="size-7 rounded-full" />
-                )}
-
+                </div>
+                <div>
+                    <h1>My Products</h1>
+                </div>
+                <div>
+                    <h1>My Comments</h1>
+                </div>
+                <div>
+                    <h1>My Posts</h1>
+                </div>
             </div>
-            <div>
-                <h1>My Products</h1>
-            </div>
-            <div>
-                <h1>My Comments</h1>
-            </div>
-            <div>
-                <h1>My Posts</h1>
-            </div>
-            <div className="flex flex-col mt-96 items-center">
-                <form action={logOut}>
-                    <button className="primary-btn h-10 w-96">Log out</button>
+            <div className="flex flex-col mt-96 items-center w-full">
+                <form action={logOut} className="w-full">
+                    <button className="primary-btn h-10 w-full">Log out</button>
                 </form>
             </div>
         </div>
