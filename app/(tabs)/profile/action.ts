@@ -56,3 +56,17 @@ export async function getUserComments(id: number) {
         return comments
     }
 }
+
+export async function getUserPosts(id:number){
+    const posts = await db.post.findMany({
+        where:{
+            userId: id
+        },
+        orderBy:{
+            created_at:"desc"
+        }
+    })
+    if (posts){
+        return posts
+    }
+}
