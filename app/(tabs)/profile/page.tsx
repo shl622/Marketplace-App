@@ -3,27 +3,15 @@ import getSession from "@/lib/session"
 import { notFound, redirect } from "next/navigation"
 import Image from "next/image"
 import { UserIcon } from "@heroicons/react/24/solid"
-import { logOut } from "./action"
+import { getUser, getUserComments, getUserProducts, logOut } from "./action"
+import ListProduct from "@/components/list-product"
+import CommentDropList from "@/components/(profile)/comment-drop"
 
-//testing purposes for session
-async function getUser() {
-    const session = await getSession()
-    if (session.id) {
-        const user = await db.user.findUnique({
-            where: {
-                id: session.id
-            }
-        })
-        if (user) {
-            return user
-        }
-    }
-    //if user DNE or no cookie return 404
-    notFound()
-}
 
 export default async function Profile() {
     const user = await getUser()
+    const products = await getUserProducts(user.id)
+    const comments = await getUserComments(user.id)
     return (
         <div className="flex flex-col gap-8 p-5 justify-between">
             <div>
@@ -42,13 +30,32 @@ export default async function Profile() {
                     )}
 
                 </div>
-                <div>
+                <div className="flex flex-col gap-12 mt-16 justify-between *:text-lg">
                     <h1>My Products</h1>
-                </div>
-                <div>
+                    {products?.length !== 0 ? (
+                        <div className="p-5 flex flex-col gap-5">
+                            {products!.map((product) => (
+                                <ListProduct key={product.id} {...product} />
+                            ))
+                            }
+                        </div>
+                    ) : (
+                        <span className="text-sm text-neutral-400 ml-5">
+                            No sale available currently.
+                        </span>
+                    )}
                     <h1>My Comments</h1>
-                </div>
-                <div>
+                        {comments?.length !== 0 ? (
+                            <div>
+                                {comments!.map((comment)=>(
+                                    <CommentDropList key={comment.id} {...comment}/>
+                                ))}
+                            </div>
+                        ):(
+                           <span className="text-sm text-neutral-400 ml-5">
+                            No comments have been made yet.
+                           </span>
+                        )}
                     <h1>My Posts</h1>
                 </div>
             </div>
