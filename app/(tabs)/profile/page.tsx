@@ -26,10 +26,16 @@ export default async function Profile() {
                     ) : (
                         <UserIcon className="size-12 rounded-full" />
                     )}
-                    <h1>Welcome, {user?.username}!</h1>
+                    <h1 className="text-2xl">Welcome, {user?.username}!</h1>
                 </div>
-                <div className="flex flex-col gap-12 justify-between *:text-lg">
-                    <h1 className="underline">My Products ({products?.length})</h1>
+                <div className="flex flex-col gap-12 justify-between *:text-2xl">
+                    <div className="flex gap-2">
+                        <h1 className="font-bold">My Products</h1>
+                        <span className="flex items-center justify-center size-8 bg-orange-500 rounded-full
+                        text-lg">
+                            {products?.length}</span>
+                    </div>
+                    
                     {products?.length !== 0 ? (
                         <div className="flex flex-col gap-5">
                             {products!.map((product) => (
@@ -42,7 +48,12 @@ export default async function Profile() {
                             No sale available currently.
                         </span>
                     )}
-                    <h1 className="underline">My Comments ({comments?.length})</h1>
+                    <div className="flex gap-2">
+                        <h1 className="font-bold">My Comments</h1>
+                        <span className="flex items-center justify-center size-8 bg-orange-500 rounded-full
+                        text-lg">
+                            {comments?.length}</span>
+                    </div>
                         {comments?.length !== 0 ? (
                             <div className="flex flex-col gap-5">
                                 {comments!.map((comment)=>(
@@ -54,7 +65,12 @@ export default async function Profile() {
                             No comments have been made yet.
                            </span>
                         )}
-                    <h1 className="underline">My Posts ({posts?.length})</h1>
+                    <div className="flex gap-2">
+                        <h1 className="font-bold">My Posts</h1>
+                        <span className="flex items-center justify-center size-8 bg-orange-500 rounded-full
+                        text-lg">
+                            {posts?.length}</span>
+                    </div>
                         {posts?.length !== 0 ? (
                             <div className="flex flex-col gap-5">
                                 {posts!.map((post)=>(
@@ -69,7 +85,7 @@ export default async function Profile() {
                 </div>
             </div>
             <div>
-                <form action={logOut} className="w-full">
+                <form action={logOut} className="mt-10 w-full">
                     <button className="primary-btn h-10 w-full">Log out</button>
                 </form>
             </div>

@@ -15,7 +15,7 @@ export default function PostDropList({ id, title, views, created_at }: PostProp)
         <Link href={`/posts/${id}`}>
             <div className="flex flex-col gap-1">
                 <div className="flex justify-between">
-                    <span className="text-white">{title}</span>
+                    <span className="text-white text-lg">{title}</span>
                     <span className="text-sm text-neutral-400">{views} views</span>
                 </div>
                 <span className="text-sm text-neutral-500">{formatTime(created_at.toString())}</span>
