@@ -32,6 +32,7 @@ model User {
   Likes      Like[]
   chat_rooms ChatRoom[]
   messages   Message[]
+  Loves      Love[]
 }
 
 model SMSToken {
@@ -58,6 +59,7 @@ model Product {
   userID      Int
 
   chat_room ChatRoom[]
+  loves     Love[]
 }
 
 model Post {
@@ -97,6 +99,19 @@ model Like {
   //only User can like a post once
   //combination of userId, postId is unique
   @@id(name: "id", [userId, postId])
+}
+
+model Love {
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId     Int
+  productId  Int
+
+  //only User can like a post once
+  //combination of userId, postId is unique
+  @@id(name: "id", [userId, productId])
 }
 
 model ChatRoom {
