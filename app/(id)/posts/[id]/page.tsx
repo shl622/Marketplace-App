@@ -9,6 +9,7 @@ import LikeButton from "@/components/like-button"
 import Comment from "@/components/comment-button"
 import CommentList from "@/components/comment-list"
 import Link from "next/link"
+import { FaRegArrowAltCircleLeft } from "react-icons/fa"
 
 
 async function getPost(id: number) {
@@ -100,6 +101,11 @@ export default async function PostDetail({ params }: { params: { id: string } })
 
     return (
         <div className="p-5 text-white">
+            <div className="mb-5 -ml-1">
+                <Link href="/posts" className="size-15">
+                    <FaRegArrowAltCircleLeft className="size-10" />
+                </Link>
+            </div>
             <div className="flex items-center gap-2 mb-2">
                 {post.user.avatar !== null ? (
                     <Image
@@ -122,10 +128,10 @@ export default async function PostDetail({ params }: { params: { id: string } })
             <h2 className="mt-3 text-lg font-semibold">{post.title}</h2>
             <p className="mb-5">{post.description}</p>
             <div className="float float-right">
-            {isOwner ? (
-                        <Link href={`/editPost/${id}`}className="underline text-neutral-400 text-sm">Edit Post</Link>)
-                        : null
-                    }
+                {isOwner ? (
+                    <Link href={`/editPost/${id}`} className="underline text-neutral-400 text-sm">Edit Post</Link>)
+                    : null
+                }
             </div>
             <div className="flex flex-col gap-5 items-start">
                 <div className="flex items-center gap-2 text-neutral-400 text-sm">

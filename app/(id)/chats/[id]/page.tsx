@@ -69,15 +69,15 @@ async function getMessages(chatRoomId: string) {
     return messages
 }
 
-async function getUserProfile(){
+async function getUserProfile() {
     const session = await getSession()
     const user = await db.user.findUnique({
-        where:{
-            id:session.id!
+        where: {
+            id: session.id!
         },
-        select:{
+        select: {
             username: true,
-            avatar:true
+            avatar: true
         }
     })
     return user
@@ -94,28 +94,31 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
     const initialMessages = await getMessages(params.id)
     const session = await getSession()
     const user = await getUserProfile()
-    if(!user){
+    if (!user) {
         return notFound()
     }
     return (
         <div>
             <div className="relative">
-                <Link className="absolute w-full" href={`/products/${room.productId}`}>
-                    <div className="flex flex-row gap-5 bg-neutral-800">
-                        <Image width={100} height={100} src={`${product!.photo}/banner`} alt={product!.title} />
-                        <div className="flex flex-col gap-5 p-3">
+                <div className="flex gap-5 bg-neutral-800">
+                    <Image width={100} height={100} src={`${product!.photo}/banner`} alt={product!.title} />
+                    <div className="flex flex-col justify-between">
+                        <Link className="flex flex-col gap-5" href={`/products/${room.productId}`}>
                             <span className="text-md text-white">{product!.title}</span>
                             <span className="text-sm text-neutral-400">${formatToUsd(product!.price)}</span>
-                        </div>
+                        </Link>
+                        <Link href="/chat">
+                            <span className="text-sm underline">Return to Chat</span>
+                        </Link>
                     </div>
-                </Link>
+                </div>
             </div>
-            <ChatMessagesList 
-            chatRoomId={params.id} 
-            userId={session.id!} 
-            username={user.username}
-            avatar ={user.avatar!}
-            initialMessages={initialMessages} />
+            <ChatMessagesList
+                chatRoomId={params.id}
+                userId={session.id!}
+                username={user.username}
+                avatar={user.avatar!}
+                initialMessages={initialMessages} />
         </div>
     )
 }
