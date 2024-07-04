@@ -3,11 +3,10 @@ import { findAllLikes, likedProductsList } from "./action"
 
 export default async function Shop(){
     const likedProducts = await findAllLikes()
-    const res = await likedProductsList(likedProducts!)
-    console.log(res)
+    const likedList = await likedProductsList(likedProducts!)
     return(
         <div className="flex flex-col gap-5 p-5">
-            {res.map((product)=>(
+            {likedList.map((product)=>(
                 <ListProduct key={product.id} {...product}/>
             ))}
         </div>
