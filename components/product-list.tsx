@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import ListProduct from "./list-product";
 import { initialProducts } from "@/app/(tabs)/home/page";
 import { getMoreProducts } from "@/app/(tabs)/home/action";
+import Link from "next/link";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 interface ProductsListProps {
     initialProducts: initialProducts
@@ -50,6 +52,13 @@ export default function ProductList({ initialProducts }: ProductsListProps) {
             {products.map((product) => (
                 <ListProduct key={product.id} {...product} />
             ))}
+            <div className="relative w-full">
+                <Link href="/addProduct"
+                    className="bg-orange-500 flex items-center justify-center rounded-full
+            size-16 absolute right-8 text-white transition-colors hover:bg-orange-400 ">
+                    <PlusIcon className="size-10"/>
+                </Link>
+            </div>
             {!isLastPage?(
                 <span
                 ref={trigger}

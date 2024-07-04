@@ -12,7 +12,7 @@ export default async function Profile() {
     const comments = await getUserComments(user.id)
     const posts = await getUserPosts(user.id)
     return (
-        <div className="flex flex-col gap-3 p-3 max-h-screen overflow-y-auto">
+        <div className="flex flex-col gap-3 p-3">
             <div>
                 <div className="flex gap-5 items-center mb-5">
                     {user.avatar !== null ? (
