@@ -35,6 +35,13 @@ export async function getUserProducts(id: number) {
         },
         orderBy: {
             created_at: "desc"
+        },
+        include:{
+            _count:{
+                select:{
+                    loves:true
+                }
+            }
         }
     })
     // console.log(products)

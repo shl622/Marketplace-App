@@ -15,7 +15,7 @@ export async function findAllLikes() {
         },
         select: {
             productId: true
-        }
+        },
     })
     if (likedProducts) {
         return likedProducts
@@ -30,6 +30,13 @@ export async function likedProductsList(likedProducts: Array<{ productId: number
         where:{
             id:{
                 in: likedProductsList
+            }
+        },
+        include:{
+            _count:{
+                select:{
+                    loves:true
+                }
             }
         }
     })

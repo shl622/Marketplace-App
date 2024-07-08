@@ -18,6 +18,11 @@ async function getInitialProducts() {
             created_at: true,
             photo: true,
             id: true,
+            _count:{
+                select:{
+                    loves:true
+                }
+            }
         },
         //take tells how many data points to fetch
         take: 10,

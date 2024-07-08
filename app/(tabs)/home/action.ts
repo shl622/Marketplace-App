@@ -9,7 +9,12 @@ export async function getMoreProducts(page:number){
             price:true,
             created_at:true,
             photo:true,
-            id:true
+            id:true,
+            _count:{
+                select:{
+                    loves:true
+                }
+            }
         },
         //take tells how many data points to fetch
         //next load skips first one
