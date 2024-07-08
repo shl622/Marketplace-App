@@ -29,9 +29,10 @@ async function getProduct(id: number) {
           username: true,
           avatar: true
         }
-      }
+      },
     }
   })
+  // console.log(product)
   return product
 }
 
@@ -140,17 +141,36 @@ export default async function ProductDetail({ params,
   };
 
   //mark product as sold
-  // async function soldProduct(){
-  //   "use server"
-  //   await db.product.update({
-  //     where:{
-  //       id: id
-  //     },
-  //     select:{
+  //if product status === true: set to false
+  //if product status === false: set to true
+  //changes the button to set and changes list of products shown on home
 
-  //     }
-  //   })
-  // }
+  async function soldProduct() {
+    "use server"
+    if (product!.status) {
+      await db.product.update({
+        where: {
+          id: product?.id
+        },
+        data: {
+          status: false
+        }
+      })
+    }
+    else {
+      await db.product.update({
+        where: {
+          id: product!.id
+        },
+        data: {
+          status: true
+        }
+      })
+    }
+    revalidatePath("/profile")
+    revalidatePath("/home")
+    revalidatePath(`/products/${product!.id}`)
+  }
 
 
   return (
@@ -207,13 +227,19 @@ export default async function ProductDetail({ params,
             </button>
           ) : null}
         </form>
-        {/* {isOwner ? (
+        {isOwner ? (
           <form action={soldProduct}>
-            <button className="bg-orange-500 px-3 py-2.5 rounded-md text-white font-semibold
-          hover:bg-orange-600 transition-all">
-              Mark as sold</button>
+            {product.status === true ? (
+              <button className="bg-orange-500 px-3 py-2.5 rounded-md text-white font-semibold
+               hover:bg-orange-600 transition-all">
+                Mark as sold</button>
+            ) : (
+              <button className="bg-orange-500 px-3 py-2.5 rounded-md text-white font-semibold
+               hover:bg-orange-600 transition-all">
+                Mark as Available</button>
+            )}
           </form>
-        ) : null} */}
+        ) : null}
         {!isOwner ? (
           <form action={createChatRoom}>
             <button

@@ -66,7 +66,7 @@ export default async function Community() {
             <div className="relative w-full mt-auto">
                 <Link href="/addPost"
                     className="bg-orange-500 flex items-center justify-center rounded-full
-            size-16 absolute right-8 text-white transition-colors hover:bg-orange-400 ">
+            size-16 absolute right-0 text-white transition-colors hover:bg-orange-400 ">
                     <PlusIcon className="size-10" />
                 </Link>
             </div>
