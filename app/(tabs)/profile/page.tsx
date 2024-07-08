@@ -5,6 +5,7 @@ import ListProduct from "@/components/list-product"
 import CommentDropList from "@/components/(profile)/comment-drop"
 import PostDropList from "@/components/(profile)/post-drop"
 import ListSoldProduct from "@/components/list-soldproduct"
+import Avatar from "@/components/(profile)/avatar"
 
 export const metadata = {
     title: "My Profile",
@@ -19,18 +20,8 @@ export default async function Profile() {
     return (
         <div className="flex flex-col gap-3 p-8">
             <div>
-                <div className="flex gap-5 items-center mb-5">
-                    {user.avatar !== null ? (
-                        <Image
-                            className="size-12 rounded-full"
-                            src={user.avatar}
-                            width={100}
-                            height={100}
-                            alt={user.username}
-                        />
-                    ) : (
-                        <UserIcon className="size-12 rounded-full" />
-                    )}
+                <div className="flex gap-7 items-center mb-5 pb-3 border-b border-neutral-500">
+                    <Avatar avatar={user.avatar!} username={user.username!}/>
                     <h1 className="text-2xl">Welcome, {user?.username}!</h1>
                 </div>
                 <div className="flex flex-col gap-12 justify-between *:text-2xl">

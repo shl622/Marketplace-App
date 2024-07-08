@@ -4,6 +4,7 @@ import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
+import { getUploadUrl } from "@/app/(add)/addProduct/action";
 
 export const logOut = async () =>{
     const session = await getSession()
@@ -92,4 +93,17 @@ export async function getUserPosts(id:number){
     if (posts){
         return posts
     }
+}
+
+export async function updateUserAvatar(photoUrl:string){
+    console.log("hit backend, ",photoUrl)
+    const session = await getSession()
+    await db.user.update({
+        where:{
+            id: session.id!
+        },
+        data:{
+            avatar: photoUrl
+        }
+    })
 }
