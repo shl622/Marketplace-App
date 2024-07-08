@@ -1,14 +1,14 @@
 import db from "@/lib/db"
 import { Prisma } from "@prisma/client"
 import ProductList from "@/components/product-list"
-import { PlusIcon } from "@heroicons/react/24/solid"
 import { unstable_cache as nextCache, revalidatePath } from "next/cache"
-import Link from "next/link"
 
 //getinitialProducts don't need ID
 //save the initialProduct load in cache so DB doesn't hit every time
 //can use revalidate: n to revalidate the cached data after n seconds
-// const getCachedProducts = nextCache(getInitialProducts, ['home-products'])
+const getCachedProducts = nextCache(getInitialProducts, ['home-products'],{
+    tags:["home-products"]
+})
 
 async function getInitialProducts() {
     const products = await db.product.findMany({
@@ -41,7 +41,7 @@ export const metadata = {
 // export const revalidate=60
 
 export default async function Home() {
-    const initialProducts = await getInitialProducts()
+    const initialProducts = await getCachedProducts()
     return (
         <div>
             <ProductList initialProducts={initialProducts} />

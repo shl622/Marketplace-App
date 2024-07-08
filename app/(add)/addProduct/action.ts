@@ -69,6 +69,7 @@ export async function uploadProduct(_: any, formData: FormData) {
             //revalidate cache when user adds product
             revalidatePath("/home")
             revalidateTag("/product-detail")
+            revalidateTag("/home-products")
             redirect(`/products/${product.id}`)
         }
     }
