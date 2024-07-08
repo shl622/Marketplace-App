@@ -3,11 +3,12 @@
 import db from "@/lib/db"
 import getSession from "@/lib/session"
 import { revalidatePath, revalidateTag } from "next/cache"
+import { redirect } from "next/navigation"
 import { z } from "zod"
 
 const commentSchema = z.object({
     payload: z.string({
-        required_error:"Please write a comment"
+        required_error: "Please write a comment"
     })
 })
 
@@ -47,31 +48,31 @@ export async function dislikePost(postId: number) {
     }
 }
 
-export async function uploadComment(_:any,formdata:FormData,postId:number){
+export async function uploadComment(_: any, formdata: FormData, postId: number) {
     const data = {
         payload: formdata.get("comment")
     }
     const result = commentSchema.safeParse(data)
-    if(!result.success){
+    if (!result.success) {
         return result.error.flatten()
     }
-    else{
+    else {
         const session = await getSession()
-        if (session){
+        if (session) {
             console.log("id number of post", postId)
             const comment = await db.comment.create({
-                select:{
-                    id:true
+                select: {
+                    id: true
                 },
-                data:{
-                    payload:result.data.payload,
-                    user:{
-                        connect:{
+                data: {
+                    payload: result.data.payload,
+                    user: {
+                        connect: {
                             id: session.id
                         }
                     },
-                    post:{
-                        connect:{
+                    post: {
+                        connect: {
                             id: postId
                         }
                     }
@@ -80,4 +81,15 @@ export async function uploadComment(_:any,formdata:FormData,postId:number){
         }
         revalidatePath("/posts")
     }
+}
+
+export async function deletePost(postId: number, userId: number) {
+    await db.post.delete({
+        where: {
+            userId: userId,
+            id: postId
+        }
+    })
+    revalidatePath("/posts")
+    redirect(`/posts`)
 }
