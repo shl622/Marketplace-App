@@ -9,21 +9,21 @@ interface CommentProps {
 
 export default function Comment({ postId }: CommentProps) {
     const handleComment = async (_:any,formData:FormData) =>{
-        uploadComment(_,formData,postId)
+        await uploadComment(_,formData,postId)
     }
-    const [state, dispatch] = useFormState(handleComment, null);
+    const [state, dispatch] = useFormState(handleComment,null);
     return (
         <div className="mt-8">
             <form className="flex flex-row gap-2" action={dispatch}>
                 <input
                     name="comment"
-                    placeholder="Comment here"
+                    placeholder="Comment here..."
                     className="bg-transparent rounded-md w-full focus:outline-none ring-1 
                     focus:ring-3 transition ring-neutral-200 focus:ring-orange-500 border-none
                     placeholder:text-neutral-400"
                 />
                 <button>
-                    <PaperAirplaneIcon className="size-7 hover:bg-orange-500" />
+                    <PaperAirplaneIcon className="size-7 hover:text-orange-500" />
                 </button>
             </form>
         </div>

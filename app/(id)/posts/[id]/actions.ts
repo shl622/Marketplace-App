@@ -9,7 +9,7 @@ import { z } from "zod"
 const commentSchema = z.object({
     payload: z.string({
         required_error: "Please write a comment"
-    })
+    }).min(1,"Please type comment")
 })
 
 export async function likePost(postId: number) {
@@ -92,4 +92,38 @@ export async function deletePost(postId: number, userId: number) {
     })
     revalidatePath("/posts")
     redirect(`/posts`)
+}
+
+
+export async function getComments(postId: number) {
+    const comments = await db.comment.findMany({
+        where: {
+            postId
+        },
+        select: {
+            id: true,
+            payload: true,
+            created_at: true,
+            user: {
+                select: {
+                    username: true,
+                    avatar: true,
+                    id: true
+                }
+            }
+        },
+        orderBy: {
+            created_at: "desc"
+        },
+    })
+    return comments
+}
+
+export async function deleteComment(commentId:number){
+    await db.comment.delete({
+        where:{
+            id:commentId
+        }
+    })
+    revalidatePath("/posts")
 }

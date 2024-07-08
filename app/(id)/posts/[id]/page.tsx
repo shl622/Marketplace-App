@@ -121,7 +121,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
                 )}
                 <div>
                     <span className="text-sm font-semibold">{post.user.username}</span>
-                    <div className="text-xs">
+                    <div className="text-xs text-neutral-500">
                         <span>{formatTime(post.created_at.toString())}</span>
                     </div>
                 </div>
