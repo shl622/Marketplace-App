@@ -17,7 +17,7 @@ async function getInitialProducts() {
             price: true,
             created_at: true,
             photo: true,
-            id: true
+            id: true,
         },
         //take tells how many data points to fetch
         take: 10,

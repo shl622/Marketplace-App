@@ -37,7 +37,7 @@ export async function getUserProducts(id: number) {
             created_at: "desc"
         }
     })
-    console.log(products)
+    // console.log(products)
     if (products) {
         return products
     }
