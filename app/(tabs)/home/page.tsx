@@ -7,7 +7,8 @@ import { unstable_cache as nextCache, revalidatePath } from "next/cache"
 //save the initialProduct load in cache so DB doesn't hit every time
 //can use revalidate: n to revalidate the cached data after n seconds
 const getCachedProducts = nextCache(getInitialProducts, ['home-products'],{
-    tags:["home-products"]
+    tags:["home-products"],
+    revalidate: 60
 })
 
 async function getInitialProducts() {

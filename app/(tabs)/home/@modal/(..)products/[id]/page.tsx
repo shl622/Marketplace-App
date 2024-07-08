@@ -4,8 +4,10 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { UserIcon } from '@heroicons/react/24/solid';
 import { formatToUsd } from '@/lib/util';
-import Link from 'next/link';
 import reloadButton from '@/components/reload-button';
+import getSession from '@/lib/session';
+import { unstable_cache as nextCache } from "next/cache"
+import LoveButton from '@/components/love-button';
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -22,6 +24,44 @@ async function getProduct(id: number) {
   return product;
 }
 
+const getCachedProducts = nextCache(getProduct, ["product-detail"], {
+  tags: ["product-detail"]
+})
+
+async function getIsOwner(userId: number) {
+  const session = await getSession()
+  if (session.id) {
+    return session.id === userId
+  }
+  return false
+}
+
+async function getLoveStatus(productId: number, userId: number) {
+  const isLoved = await db.love.findUnique({
+    where: {
+      id: {
+        productId,
+        userId
+      }
+    }
+  })
+  const loveCount = await db.love.count({
+    where: {
+      productId
+    }
+  })
+  return {
+    loveCount,
+    isLoved: Boolean(isLoved)
+  }
+}
+
+async function getCachedLoveStatus(postId: number, userId: number) {
+  const cachedOperation = nextCache((postId) => getLoveStatus(postId, userId), ["product-love-status"],
+    { tags: [`love-status-${postId}`] })
+  return cachedOperation(postId)
+}
+
 export default async function Modal({ params }: { params: { id: string } }) {
   const id = Number(params.id);
 
@@ -29,10 +69,13 @@ export default async function Modal({ params }: { params: { id: string } }) {
     return notFound();
   }
 
-  const product = await getProduct(id);
+  const product = await getCachedProducts(id);
   if (!product) {
     return notFound();
   }
+  const session = await getSession()
+  const { loveCount, isLoved } = await getCachedLoveStatus(id, session.id!)
+  const isOwner = await getIsOwner(product.userID)
 
   return (
     <div className='absolute w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-60 left-0 top-0'>
@@ -76,6 +119,11 @@ export default async function Modal({ params }: { params: { id: string } }) {
             </div>
             <div>
               <button className="text-orange-500 hover:text-orange-600 transition-all" onClick={reloadButton}>Visit Product</button>
+            </div>
+            <div>
+              {!isOwner ? (
+                <LoveButton isLoved={isLoved} loveCount={loveCount} productId={id} />
+              ) : null}
             </div>
           </div>
         </div>

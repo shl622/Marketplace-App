@@ -38,7 +38,7 @@ export default function ListProduct({
             </Link>
             <div className="flex items-center">
                 <HeartIcon className="size-4 text-white" />
-                <span className="ml-2 text-sm text-neutral-300">{_count.loves}</span>
+                <span className="ml-2 text-md text-neutral-300">{_count.loves}</span>
             </div>
         </div>
     )
