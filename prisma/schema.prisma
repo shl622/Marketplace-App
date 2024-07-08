@@ -57,6 +57,7 @@ model Product {
   updated_at  DateTime @updatedAt
   user        User     @relation(fields: [userID], references: [id], onDelete: Cascade)
   userID      Int
+  status      Boolean @default(true) //true for not sold and false for sold
 
   chat_room ChatRoom[]
   loves     Love[]

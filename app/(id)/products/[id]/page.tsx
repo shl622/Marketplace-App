@@ -139,6 +139,20 @@ export default async function ProductDetail({ params,
     }
   };
 
+  //mark product as sold
+  // async function soldProduct(){
+  //   "use server"
+  //   await db.product.update({
+  //     where:{
+  //       id: id
+  //     },
+  //     select:{
+
+  //     }
+  //   })
+  // }
+
+
   return (
     <div>
       <div className="flex">
@@ -193,6 +207,13 @@ export default async function ProductDetail({ params,
             </button>
           ) : null}
         </form>
+        {/* {isOwner ? (
+          <form action={soldProduct}>
+            <button className="bg-orange-500 px-3 py-2.5 rounded-md text-white font-semibold
+          hover:bg-orange-600 transition-all">
+              Mark as sold</button>
+          </form>
+        ) : null} */}
         {!isOwner ? (
           <form action={createChatRoom}>
             <button
