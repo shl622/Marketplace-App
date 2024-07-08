@@ -28,10 +28,11 @@ export async function getUser() {
     notFound()
 }
 
-export async function getUserProducts(id: number) {
+export async function getUserLiveProducts(id: number) {
     const products = await db.product.findMany({
         where: {
-            userID: id
+            userID: id,
+            status: true
         },
         orderBy: {
             created_at: "desc"
@@ -46,6 +47,21 @@ export async function getUserProducts(id: number) {
     })
     // console.log(products)
     if (products) {
+        return products
+    }
+}
+
+export async function getUserSoldProducts(id:number){
+    const products = await db.product.findMany({
+        where:{
+            userID:id,
+            status:false
+        },
+        orderBy:{
+            created_at:"desc"
+        }
+    })
+    if(products){
         return products
     }
 }

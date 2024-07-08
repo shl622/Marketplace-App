@@ -1,9 +1,10 @@
 import Image from "next/image"
 import { UserIcon } from "@heroicons/react/24/solid"
-import { getUser, getUserComments, getUserPosts, getUserProducts, logOut } from "./action"
+import { getUser, getUserComments, getUserLiveProducts, getUserPosts, getUserSoldProducts, logOut } from "./action"
 import ListProduct from "@/components/list-product"
 import CommentDropList from "@/components/(profile)/comment-drop"
 import PostDropList from "@/components/(profile)/post-drop"
+import ListSoldProduct from "@/components/list-soldproduct"
 
 export const metadata = {
     title: "My Profile",
@@ -11,7 +12,8 @@ export const metadata = {
 
 export default async function Profile() {
     const user = await getUser()
-    const products = await getUserProducts(user.id)
+    const liveProducts = await getUserLiveProducts(user.id)
+    const soldProducts = await getUserSoldProducts(user.id)
     const comments = await getUserComments(user.id)
     const posts = await getUserPosts(user.id)
     return (
@@ -33,15 +35,15 @@ export default async function Profile() {
                 </div>
                 <div className="flex flex-col gap-12 justify-between *:text-2xl">
                     <div className="flex gap-2">
-                        <h1 className="font-bold">My Products</h1>
+                        <h1 className="font-bold">Live Products</h1>
                         <span className="flex items-center justify-center size-8 bg-orange-500 rounded-full
                         text-lg">
-                            {products?.length}</span>
+                            {liveProducts?.length}</span>
                     </div>
                     
-                    {products?.length !== 0 ? (
+                    {liveProducts?.length !== 0 ? (
                         <div className="flex flex-col gap-5">
-                            {products!.map((product) => (
+                            {liveProducts!.map((product) => (
                                 <ListProduct key={product.id} {...product} />
                             ))
                             }
@@ -49,6 +51,25 @@ export default async function Profile() {
                     ) : (
                         <span className="text-sm text-neutral-400 ml-5">
                             No sale available currently.
+                        </span>
+                    )}
+                    <div className="flex gap-2">
+                        <h1 className="font-bold">Sold Products</h1>
+                        <span className="flex items-center justify-center size-8 bg-orange-500 rounded-full
+                        text-lg">
+                            {soldProducts?.length}</span>
+                    </div>
+                    
+                    {soldProducts?.length !== 0 ? (
+                        <div className="flex flex-col gap-5">
+                            {soldProducts!.map((product) => (
+                                <ListSoldProduct key={product.id} {...product} />
+                            ))
+                            }
+                        </div>
+                    ) : (
+                        <span className="text-sm text-neutral-400 ml-5">
+                            No sold items available currently.
                         </span>
                     )}
                     <div className="flex gap-2">
