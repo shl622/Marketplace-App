@@ -17,12 +17,16 @@ export default async function Profile() {
     const soldProducts = await getUserSoldProducts(user.id)
     const comments = await getUserComments(user.id)
     const posts = await getUserPosts(user.id)
+
     return (
         <div className="flex flex-col gap-3 p-8">
             <div>
                 <div className="flex gap-7 items-center mb-5 pb-3 border-b border-neutral-500">
-                    <Avatar avatar={user.avatar!} username={user.username!}/>
-                    <h1 className="text-2xl">Welcome, {user?.username}!</h1>
+                    <Avatar avatar={user.avatar!} username={user.username!} />
+                    <div>
+                        <h1 className="text-2xl">Welcome, {user?.username}!</h1>
+                        <h1 className="mt-2 text-neutral-400">Since {user.createdAt.getFullYear()}</h1>
+                    </div>
                 </div>
                 <div className="flex flex-col gap-12 justify-between *:text-2xl">
                     <div className="flex gap-2">
@@ -31,7 +35,7 @@ export default async function Profile() {
                         text-lg">
                             {liveProducts?.length}</span>
                     </div>
-                    
+
                     {liveProducts?.length !== 0 ? (
                         <div className="flex flex-col gap-5">
                             {liveProducts!.map((product) => (
@@ -50,7 +54,7 @@ export default async function Profile() {
                         text-lg">
                             {soldProducts?.length}</span>
                     </div>
-                    
+
                     {soldProducts?.length !== 0 ? (
                         <div className="flex flex-col gap-5">
                             {soldProducts!.map((product) => (
@@ -69,34 +73,34 @@ export default async function Profile() {
                         text-lg">
                             {comments?.length}</span>
                     </div>
-                        {comments?.length !== 0 ? (
-                            <div className="flex flex-col gap-5">
-                                {comments!.map((comment)=>(
-                                    <CommentDropList key={comment.id} {...comment}/>
-                                ))}
-                            </div>
-                        ):(
-                           <span className="text-sm text-neutral-400 ml-5">
+                    {comments?.length !== 0 ? (
+                        <div className="flex flex-col gap-5">
+                            {comments!.map((comment) => (
+                                <CommentDropList key={comment.id} {...comment} />
+                            ))}
+                        </div>
+                    ) : (
+                        <span className="text-sm text-neutral-400 ml-5">
                             No comments have been made yet.
-                           </span>
-                        )}
+                        </span>
+                    )}
                     <div className="flex gap-2">
                         <h1 className="font-bold">My Posts</h1>
                         <span className="flex items-center justify-center size-8 bg-orange-500 rounded-full
                         text-lg">
                             {posts?.length}</span>
                     </div>
-                        {posts?.length !== 0 ? (
-                            <div className="flex flex-col gap-5">
-                                {posts!.map((post)=>(
-                                    <PostDropList key={post.id} {...post}/>
-                                ))}
-                            </div>
-                        ):(
-                            <span className="text-sm text-neutral-400 ml-5">
+                    {posts?.length !== 0 ? (
+                        <div className="flex flex-col gap-5">
+                            {posts!.map((post) => (
+                                <PostDropList key={post.id} {...post} />
+                            ))}
+                        </div>
+                    ) : (
+                        <span className="text-sm text-neutral-400 ml-5">
                             No posts have been made yet.
-                           </span>
-                        )}
+                        </span>
+                    )}
                 </div>
             </div>
             <div>
