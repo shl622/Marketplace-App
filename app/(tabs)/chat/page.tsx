@@ -40,7 +40,6 @@ async function getChatInfo(chatRooms: Array<{id:string}>) {
                 created_at: "desc"
             }
         })
-        // console.log(`${chatRoom.id} || msg:`, message[0])
         chatInfo[chatRoom.id] = message[0]
     }))
     return chatInfo

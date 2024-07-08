@@ -11,6 +11,7 @@ export default function Comment({ postId }: CommentProps) {
     const handleComment = async (_:any,formData:FormData) =>{
         await uploadComment(_,formData,postId)
     }
+    
     const [state, dispatch] = useFormState(handleComment,null);
     return (
         <div className="mt-8">

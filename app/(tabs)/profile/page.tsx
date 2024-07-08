@@ -5,6 +5,9 @@ import ListProduct from "@/components/list-product"
 import CommentDropList from "@/components/(profile)/comment-drop"
 import PostDropList from "@/components/(profile)/post-drop"
 
+export const metadata = {
+    title: "My Profile",
+}
 
 export default async function Profile() {
     const user = await getUser()

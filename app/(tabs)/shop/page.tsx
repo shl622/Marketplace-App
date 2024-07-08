@@ -1,6 +1,10 @@
 import ListProduct from "@/components/list-product"
 import { findAllLikes, likedProductsList } from "./action"
 
+export const metadata = {
+    title: "Shop",
+}
+
 export default async function Shop() {
     const likedProducts = await findAllLikes()
     const likedList = await likedProductsList(likedProducts!)
