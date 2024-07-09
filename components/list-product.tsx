@@ -30,15 +30,15 @@ export default function ListProduct({
                         <Image fill sizes="120px" src={`${photo}/thumbnail`} className="object-cover" alt={title} quality={100} />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <span className="text-lg text-white">{title}</span>
-                        <span className="text-sm text-neutral-400">{formatTime(created_at.toString())}</span>
-                        <span className="text-lg text-neutral-300">$ {formatToUsd(price)}</span>
+                        <span className="text-lg text-neutral-900 dark:text-white">{title}</span>
+                        <span className="text-sm text-neutral-700 dark:text-neutral-400">{formatTime(created_at.toString())}</span>
+                        <span className="text-lg text-neutral-500 dark:text-neutral-300">$ {formatToUsd(price)}</span>
                     </div>
                 </div>
             </Link>
             <div className="flex items-center">
-                <HeartIcon className="size-4 text-white" />
-                <span className="ml-2 text-md text-neutral-300">{_count.loves}</span>
+                <HeartIcon className="size-4 text-neutral-600 dark:text-white" />
+                <span className="ml-2 text-md text-neutral-600 dark:text-neutral-300">{_count.loves}</span>
             </div>
         </div>
     )
