@@ -1,14 +1,27 @@
-# Marketplace App
+# Marketplace-App
 
-### This is a full stack web application where users can buy and sell items online.</br></br>The app was built on NextJS using React, TailWind CSS, Prisma and Cloudflare.
+Marketplace App is a peer-to-peer marketplace app that not only allows you to seamlessly buy and sell items but also share stories and connect with the community.
 
 
-### Deployment Link
+## Deployment Link
+Visit: [Deployed link]()
 
-### Why use NextJS?
+## Tech Stack
+This app is a full-stack application built on NextJS framework, using TypeScript, React and Tailwind CSS.
 
-### Why use Cloudflare vs AWS S3,Other Cloud Options?
+## Installation (Local)
+Use the following commands to install necessary packages and start a local instance of the app.
+```bash
+npm i
+npm run dev
+```
+## Contributing
 
-### Why use Prisma?
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
 
-### Experience and Improvements
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
