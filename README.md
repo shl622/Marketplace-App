@@ -4,8 +4,14 @@ Marketplace App is a peer-to-peer marketplace app that not only allows you to se
 
 
 ## Deployment Link
-Visit: [Deployed link]()
+Visit: [Deployed link](https://marketplace-app-black.vercel.app/)
+<br>
+```bash
+#Guest Credentials
 
+Username: guest
+Password: Asdf1234!
+```
 ## Tech Stack
 This app is a full-stack application built on NextJS framework, using TypeScript, React and Tailwind CSS.
 
