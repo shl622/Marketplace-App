@@ -14,6 +14,12 @@ Use the following commands to install necessary packages and start a local insta
 ```bash
 npm i
 npm run dev
+
+#server instance
+#use whichever database provider works for you
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")}
 ```
 ## Contributing
 

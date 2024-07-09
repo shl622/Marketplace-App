@@ -7,3 +7,4 @@ next-env.d.ts
 *.tsbuildinfo
 *.db
 *.db-journal
+.vercel
